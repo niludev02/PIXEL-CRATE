@@ -1,0 +1,48 @@
+.relatorios-titulo {
+    font-family: "Press Start 2P", monospace;
+    text-align: center;
+    font-size: clamp(.85rem, 1.5vw, 1.05rem);
+    font-weight: 700;
+    line-height: 1.8;
+    margin: 20px 0 30px;
+    color: var(--texto);
+}
+
+.relatorios-graficos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    width: 100%;
+    padding-bottom: 30px;
+}
+
+.grafico-categorias,
+.grafico-status,
+.grafico-vendas,
+.grafico-meses {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    height: 350px;
+    padding: 1rem;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    background: var(--card);
+}
+
+@media (max-width: 560px) {
+    .relatorios-titulo {
+        font-size: .8rem;
+    }
+
+    .relatorios-graficos {
+        grid-template-columns: 1fr;
+    }
+
+    .grafico-categorias,
+    .grafico-status,
+    .grafico-vendas,
+    .grafico-meses {
+        height: 280px;
+    }
+}

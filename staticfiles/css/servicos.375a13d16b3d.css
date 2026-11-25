@@ -1,0 +1,251 @@
+.assets-page {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.servicos-titulo {
+    margin-bottom: 1.1rem;
+}
+
+.asset-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .75rem;
+    margin-bottom: 1rem;
+}
+
+.asset-stat {
+    display: grid;
+    gap: .3rem;
+    padding: .8rem 1rem;
+}
+
+.asset-stat span {
+    color: var(--texto-suave);
+    font-size: .75rem;
+}
+
+.asset-stat strong {
+    color: var(--texto);
+    font-size: 1rem;
+}
+
+.asset-toolbar {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: .85rem;
+}
+
+.asset-search {
+    display: flex;
+    flex: 1;
+    gap: .5rem;
+    min-width: 0;
+}
+
+.asset-search input {
+    flex: 1;
+    min-width: 0;
+    padding: .55rem .7rem;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--texto);
+    font: inherit;
+    font-size: .82rem;
+}
+
+.asset-search input:focus {
+    border-color: var(--primaria);
+    outline: 2px solid rgba(124, 92, 255, .2);
+}
+
+.asset-search button {
+    padding: .5rem 1rem;
+    border-radius: 6px;
+    background: var(--primaria);
+    color: #fff;
+    font-size: .82rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: .35rem .7rem;
+    border-radius: 4px;
+    font-size: .75rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn-adicionar {
+    border: 0;
+    background: var(--acao);
+    color: var(--bg);
+}
+
+.filtros-avancados {
+    margin-bottom: .85rem;
+    padding: .6rem .75rem;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    background: var(--card);
+}
+
+.filtros-avancados summary {
+    color: var(--texto-suave);
+    cursor: pointer;
+    font-size: .78rem;
+    font-weight: 600;
+}
+
+.filtros-opcoes-avancadas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: .85rem;
+    padding-top: .9rem;
+}
+
+.filtro-grupo h3 {
+    margin: 0 0 .45rem;
+    color: var(--texto-suave);
+    font-size: .74rem;
+    font-weight: 600;
+}
+
+.filtro-opcoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+}
+
+.filtro-opcao,
+.filtro-limpar {
+    color: var(--texto-suave);
+    font-size: .72rem;
+    text-decoration: none;
+}
+
+.filtro-opcao:hover,
+.filtro-limpar:hover {
+    color: var(--texto);
+}
+
+.filtro-limpar {
+    align-self: end;
+}
+
+.tabela-servicos {
+    overflow: hidden;
+}
+
+.tabela-servicos table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .78rem;
+    text-align: left;
+}
+
+.tabela-servicos th,
+.tabela-servicos td {
+    padding: .55rem .65rem;
+    border-bottom: 1px solid var(--borda);
+    vertical-align: middle;
+}
+
+.tabela-servicos th {
+    color: var(--texto-suave);
+    font-size: .7rem;
+    font-weight: 500;
+}
+
+.tabela-servicos tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.asset-preview {
+    width: 52px;
+}
+
+.tabela-servicos img,
+.asset-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--texto-suave);
+    object-fit: cover;
+}
+
+.asset-name {
+    font-weight: 600;
+}
+
+.asset-status {
+    font-size: .75rem;
+}
+
+.asset-status-active {
+    color: var(--acao);
+}
+
+.asset-status-inactive {
+    color: var(--texto-suave);
+}
+
+.asset-actions {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+}
+
+.asset-actions form {
+    margin: 0;
+}
+
+.btn-editar {
+    color: #bba8ff;
+}
+
+.btn-excluir {
+    padding-right: 0;
+    padding-left: 0;
+    border: 0;
+    background: transparent;
+    color: var(--texto-suave);
+    cursor: pointer;
+}
+
+.asset-actions .btn-excluir:hover {
+    color: var(--texto);
+}
+
+@media (max-width: 700px) {
+    .asset-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .asset-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .btn-adicionar {
+        align-self: flex-start;
+    }
+
+    .tabela-servicos {
+        overflow-x: auto;
+    }
+
+    .tabela-servicos table {
+        min-width: 650px;
+    }
+}

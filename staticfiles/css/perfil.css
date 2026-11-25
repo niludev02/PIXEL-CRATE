@@ -1,0 +1,169 @@
+.perfil-card {
+    background: var(--card);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, .22);
+    margin: 0 auto;
+    max-width: 760px;
+    overflow: hidden;
+}
+
+.perfil-cabecalho {
+    align-items: center;
+    background: radial-gradient(ellipse at top right, rgba(124, 92, 255, .18), transparent 60%), var(--surface-hover);
+    display: flex;
+    gap: 1rem;
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+.perfil-avatar {
+    align-items: center;
+    background: var(--primaria);
+    border: 5px solid rgba(255, 255, 255, .8);
+    border-radius: 50%;
+    box-shadow: 0 5px 14px rgba(0, 0, 0, .25);
+    color: #fff;
+    display: flex;
+    flex: 0 0 76px;
+    font-size: 2rem;
+    font-weight: 800;
+    height: 76px;
+    justify-content: center;
+    width: 76px;
+}
+
+.perfil-saudacao {
+    color: var(--texto);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    margin-bottom: .25rem;
+    text-transform: uppercase;
+}
+
+.perfil-cabecalho h2 {
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(.85rem, 1.4vw, 1rem);
+    line-height: 1.8;
+    margin-bottom: .25rem;
+}
+
+.perfil-ajuda {
+    color: var(--texto-suave);
+}
+
+.perfil-mensagem {
+    background: rgba(61, 220, 151, .12);
+    border: 1px solid rgba(61, 220, 151, .35);
+    border-radius: 8px;
+    color: var(--acao);
+    font-size: .9rem;
+    font-weight: 700;
+    margin-top: .85rem;
+    padding: .55rem .75rem;
+}
+
+.perfil-form {
+    display: grid;
+    gap: 1.15rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+.perfil-campo {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.perfil-campo-completo,
+.perfil-acoes {
+    grid-column: 1 / -1;
+}
+
+.perfil-campo label {
+    color: var(--texto);
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+.perfil-campo input {
+    background: var(--texto-escuro);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    color: var(--texto);
+    font: inherit;
+    padding: .75rem .85rem;
+    transition: border-color .2s, box-shadow .2s;
+    width: 100%;
+}
+
+.perfil-campo input:focus {
+    border-color: var(--acao);
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, .2);
+    outline: none;
+}
+
+.perfil-acoes {
+    border-top: 1px solid var(--borda);
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1.25rem;
+}
+
+.perfil-acoes button {
+    background: var(--primaria);
+    color: #fff;
+    padding: .75rem 1.1rem;
+}
+
+.perfil-acoes button:hover {
+    background: #6948ef;
+}
+
+.perfil-secundaria {
+    border-top: 1px solid var(--borda);
+    padding: 1rem clamp(1.5rem, 5vw, 2.5rem) 1.5rem;
+    text-align: right;
+}
+
+.perfil-secundaria a {
+    border-radius: 7px;
+    color: var(--texto);
+    display: inline-block;
+    font-size: .9rem;
+    font-weight: 700;
+    padding: .4rem .6rem;
+    text-decoration: none;
+    transition: background .2s, color .2s;
+}
+
+.perfil-secundaria a:hover,
+.perfil-secundaria a:focus {
+    background: var(--surface-hover);
+    color: var(--texto);
+}
+
+@media (max-width: 600px) {
+    .perfil-cabecalho {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .perfil-form {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-campo-completo,
+    .perfil-acoes {
+        grid-column: auto;
+    }
+
+    .perfil-acoes button {
+        width: 100%;
+    }
+
+    .perfil-secundaria {
+        text-align: center;
+    }
+}

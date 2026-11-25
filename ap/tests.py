@@ -2,6 +2,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
+from django.core.files.base import ContentFile
 from django.db.models.fields.files import FieldFile
 from django.test import TestCase
 from django.urls import reverse
@@ -11,6 +12,7 @@ from login.models import Perfil
 
 from .forms import FormServico
 from .models import Asset, Categoria, ItemPedido, Pedido
+from .storage import SupabasePublicMediaStorage
 
 
 def create_admin_user(username, password="senha-segura"):
@@ -20,6 +22,39 @@ def create_admin_user(username, password="senha-segura"):
         tipo_usuario=Perfil.TIPO_ADMINISTRADOR,
     )
     return user
+
+
+class SupabasePreviewStorageTests(TestCase):
+    @patch("ap.storage.supabase")
+    def test_save_uploads_preview_with_unique_name_and_image_content_type(self, supabase_mock):
+        bucket = supabase_mock.storage.from_.return_value
+        storage = SupabasePublicMediaStorage(bucket_name="pixelcrate-previews")
+
+        saved_name = storage.save(
+            "servicos/preview.png",
+            ContentFile(b"image-bytes"),
+        )
+
+        uploaded_name, uploaded_content = bucket.upload.call_args.args
+        self.assertRegex(uploaded_name, r"^servicos/[0-9a-f]{32}\.png$")
+        self.assertEqual(uploaded_name, saved_name)
+        self.assertEqual(uploaded_content, b"image-bytes")
+        self.assertEqual(
+            bucket.upload.call_args.kwargs["file_options"],
+            {"content-type": "image/png", "upsert": "false"},
+        )
+        supabase_mock.storage.from_.assert_called_once_with("pixelcrate-previews")
+
+    @patch("ap.storage.supabase")
+    def test_preview_url_comes_from_supabase_public_bucket(self, supabase_mock):
+        bucket = supabase_mock.storage.from_.return_value
+        bucket.get_public_url.return_value = "https://storage.example/preview.png"
+        storage = SupabasePublicMediaStorage(bucket_name="pixelcrate-previews")
+
+        url = storage.url("servicos/preview.png")
+
+        self.assertEqual(url, "https://storage.example/preview.png")
+        bucket.get_public_url.assert_called_once_with("servicos/preview.png")
 
 
 class IntegrantesAccessTests(TestCase):

@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from .storage import SupabasePublicMediaStorage
+
 # Create your models here.
 
 class Categoria(models.Model):
@@ -14,7 +16,13 @@ class Asset(models.Model):
     nome = models.CharField("Nome do asset", max_length=100)
     descricao = models.TextField("Descrição", blank=True)
     preco = models.DecimalField("Preço", max_digits=10, decimal_places=2)
-    imagem = models.ImageField("Imagem de prévia", upload_to='servicos/', blank=True, null=True)
+    imagem = models.ImageField(
+        "Imagem de prévia",
+        upload_to='servicos/',
+        storage=SupabasePublicMediaStorage(),
+        blank=True,
+        null=True,
+    )
     arquivo = models.FileField("Arquivo para download", upload_to='assets/', blank=True, null=True)
     ativo = models.BooleanField("Ativo (aparece na vitrine)", default=True)
     criado_em = models.DateTimeField(auto_now_add=True)
