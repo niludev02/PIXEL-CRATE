@@ -6,11 +6,13 @@ const accountToggle = document.querySelector(".account-avatar");
 
 if (header && menuToggle && navigation) {
     header.classList.add("menu-ready");
+    let accountMenuCloseTimer;
 
     const closeAccountMenu = () => {
         if (!accountMenu || !accountToggle) {
             return;
         }
+        window.clearTimeout(accountMenuCloseTimer);
         accountMenu.classList.remove("is-open");
         accountToggle.setAttribute("aria-expanded", "false");
     };
@@ -39,8 +41,16 @@ if (header && menuToggle && navigation) {
         let lastPointerType = null;
 
         const setAccountMenuOpen = (isOpen) => {
+            window.clearTimeout(accountMenuCloseTimer);
             accountMenu.classList.toggle("is-open", isOpen);
             accountToggle.setAttribute("aria-expanded", String(isOpen));
+        };
+
+        const scheduleAccountMenuClose = () => {
+            window.clearTimeout(accountMenuCloseTimer);
+            accountMenuCloseTimer = window.setTimeout(() => {
+                closeAccountMenu();
+            }, 300);
         };
 
         accountToggle.addEventListener("pointerdown", (event) => {
@@ -55,7 +65,7 @@ if (header && menuToggle && navigation) {
 
         accountMenu.addEventListener("pointerleave", (event) => {
             if (event.pointerType === "mouse") {
-                setAccountMenuOpen(false);
+                scheduleAccountMenuClose();
             }
         });
 
@@ -95,7 +105,7 @@ if (header && menuToggle && navigation) {
     });
 
     window.addEventListener("resize", () => {
-        if (window.matchMedia("(min-width: 901px)").matches) {
+        if (window.matchMedia("(min-width: 1201px)").matches) {
             closeMenu();
         }
     });

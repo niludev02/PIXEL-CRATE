@@ -13,7 +13,7 @@
 
 .home-eyebrow {
     margin-bottom: 1rem;
-    color: var(--acao);
+    color: var(--primaria);
     font-size: .72rem;
     font-weight: 800;
     letter-spacing: .16em;
@@ -28,12 +28,12 @@
     color: var(--texto);
     font-size: clamp(2.4rem, 5.3vw, 4.5rem);
     font-weight: 800;
-    letter-spacing: -.065em;
+    letter-spacing: -.045em;
     line-height: 1.06;
 }
 
 .home-title span {
-    color: var(--acao);
+    color: var(--primaria);
 }
 
 .home-description {
@@ -58,7 +58,7 @@
     gap: .7rem;
     padding: .75rem 1.1rem;
     border: 1px solid transparent;
-    border-radius: 9px;
+    border-radius: 7px;
     font-size: .9rem;
     font-weight: 700;
     text-decoration: none;
@@ -67,14 +67,12 @@
 
 .home-button-primary {
     background: var(--primaria);
-    box-shadow: 0 8px 24px rgba(124, 92, 255, .2);
     color: #fff;
 }
 
 .home-button-primary:hover {
     transform: translateY(-2px);
-    background: #6948ef;
-    box-shadow: 0 12px 28px rgba(124, 92, 255, .32);
+    background: #816be0;
 }
 
 .home-button-primary span {
@@ -121,17 +119,15 @@
     overflow: hidden;
     padding: .75rem;
     border: 1px solid var(--borda);
-    border-radius: 18px;
-    background: linear-gradient(145deg, rgba(124, 92, 255, .12), transparent 55%), var(--card);
-    box-shadow: 0 24px 70px rgba(0, 0, 0, .3);
-    transform: rotate(1deg);
-    transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    border-radius: 12px;
+    background: var(--card);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .2);
+    transition: border-color .3s ease, box-shadow .3s ease;
 }
 
 .home-preview:hover {
-    transform: rotate(0) translateY(-4px);
-    border-color: rgba(124, 92, 255, .7);
-    box-shadow: 0 28px 75px rgba(124, 92, 255, .12), 0 24px 55px rgba(0, 0, 0, .25);
+    border-color: rgba(155, 135, 245, .55);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, .24);
 }
 
 .preview-topbar,
@@ -194,7 +190,7 @@
     width: 34px;
     height: 34px;
     background: var(--preco);
-    box-shadow: 8px 0 0 rgba(255, 200, 87, .18), 0 0 35px rgba(255, 200, 87, .2);
+    box-shadow: 8px 0 0 rgba(255, 200, 87, .18);
 }
 
 .scene-hill {
@@ -240,7 +236,6 @@
     height: 43px;
     border: 3px solid #a4ffcf;
     background: var(--acao);
-    box-shadow: 0 0 25px rgba(61, 220, 151, .3);
     clip-path: polygon(18% 0, 82% 0, 82% 14%, 100% 14%, 100% 86%, 82% 86%, 82% 100%, 18% 100%, 18% 86%, 0 86%, 0 14%, 18% 14%);
 }
 
@@ -295,9 +290,10 @@
 .home-section-heading h2,
 .home-cta h2 {
     color: var(--texto);
-    font-family: "Press Start 2P", monospace;
-    font-size: clamp(.85rem, 1.5vw, 1.1rem);
-    line-height: 1.8;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -.04em;
+    line-height: 1.2;
 }
 
 .feature-grid {
@@ -310,15 +306,14 @@
     min-height: 205px;
     padding: 1.4rem;
     border: 1px solid var(--borda);
-    border-radius: 14px;
-    background: linear-gradient(145deg, rgba(124, 92, 255, .06), transparent 65%), var(--card);
-    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+    border-radius: 12px;
+    background: var(--card);
+    transition: border-color .22s ease, box-shadow .22s ease;
 }
 
 .feature-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(124, 92, 255, .65);
-    box-shadow: 0 16px 38px rgba(0, 0, 0, .22);
+    border-color: rgba(155, 135, 245, .55);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, .18);
 }
 
 .feature-icon {
@@ -375,8 +370,8 @@
     margin: 0 auto;
     padding: clamp(2rem, 5vw, 3.5rem) 1.5rem;
     border: 1px solid var(--borda);
-    border-radius: 18px;
-    background: radial-gradient(ellipse at center top, rgba(124, 92, 255, .18), transparent 70%), var(--card);
+    border-radius: 12px;
+    background: var(--card);
     text-align: center;
 }
 
@@ -443,7 +438,7 @@
 
     .home-section-heading h2,
     .home-cta h2 {
-        font-size: .8rem;
+        font-size: 1.4rem;
     }
 }
 

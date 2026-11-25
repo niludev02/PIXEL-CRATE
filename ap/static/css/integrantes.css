@@ -1,37 +1,42 @@
 .integrantes-cabecalho {
-    max-width: 760px;
-    margin: 0 auto 3rem;
-    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto 2rem;
+    text-align: left;
 }
 
 .integrantes-etiqueta {
-    margin-bottom: .9rem;
-    color: var(--acao);
+    margin-bottom: .75rem;
+    color: var(--primaria);
     font-size: .75rem;
     font-weight: 700;
-    letter-spacing: .18em;
+    letter-spacing: .13em;
 }
 
 .integrantes-titulo {
-    font-family: "Press Start 2P", monospace;
     color: var(--texto);
-    font-size: clamp(.9rem, 1.6vw, 1.2rem);
-    font-weight: 700;
-    line-height: 1.8;
-    margin-bottom: 1rem;
-}
-
-.integrantes-subtitulo {
-    margin-bottom: .65rem;
-    color: var(--texto);
-    font-size: 1rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 750;
+    letter-spacing: -.05em;
+    line-height: 1.1;
+    margin-bottom: .85rem;
 }
 
 .integrantes-descricao {
-    max-width: 560px;
-    margin: 0 auto 1.75rem;
+    max-width: 620px;
+    margin: 0 0 1.25rem;
     color: var(--texto-suave);
-    font-size: 1.05rem;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.integrantes-status {
+    display: inline-flex;
+    margin: 0;
+    padding: .35rem .65rem;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    color: var(--texto-suave);
+    font-size: .8rem;
 }
 
 .integrantes-container {
@@ -45,42 +50,31 @@
 .integrante-card {
     position: relative;
     display: flex;
-    min-height: 330px;
+    min-height: 300px;
     flex-direction: column;
-    align-items: center;
-    padding: 2rem 1.5rem 1.25rem;
+    align-items: flex-start;
+    padding: 1.5rem;
     overflow: hidden;
     border: 1px solid var(--borda);
-    border-radius: 16px;
-    background: linear-gradient(155deg, #252039, var(--card) 65%);
-    text-align: center;
-    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
-}
-
-.integrante-card::before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primaria), var(--acao));
-    content: "";
+    border-radius: 12px;
+    background: var(--card);
+    text-align: left;
+    transition: border-color .2s ease, box-shadow .2s ease;
 }
 
 .integrante-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--primaria);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, .24);
+    border-color: rgba(155, 135, 245, .65);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, .2);
 }
 
 .integrante-foto,
 .integrante-avatar {
-    width: 108px;
-    height: 108px;
+    width: 88px;
+    height: 88px;
     flex: 0 0 auto;
-    margin-bottom: 1.15rem;
-    border: 3px solid var(--primaria);
-    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
 }
 
 .integrante-foto {
@@ -91,8 +85,8 @@
 .integrante-avatar {
     display: grid;
     place-items: center;
-    background: linear-gradient(145deg, var(--primaria), #4a37a8);
-    color: var(--texto);
+    background: var(--surface-hover);
+    color: var(--primaria);
     font-size: 2.5rem;
     font-weight: 700;
 }
@@ -111,7 +105,7 @@
 
 .integrante-cargo {
     margin-bottom: .85rem;
-    color: var(--acao);
+    color: var(--primaria);
     font-size: .75rem;
     font-weight: 700;
     letter-spacing: .1em;
@@ -155,13 +149,13 @@
 
 .btn-editar {
     flex: 1;
-    background: rgba(124, 92, 255, .14);
+    background: rgba(155, 135, 245, .1);
     color: var(--texto);
 }
 
 .btn-editar:hover {
     border-color: var(--primaria);
-    background: rgba(124, 92, 255, .28);
+    background: rgba(155, 135, 245, .18);
 }
 
 .btn-excluir {
@@ -182,21 +176,18 @@
     justify-content: center;
     padding: .7rem 1.25rem;
     border: 1px solid var(--primaria);
-    border-radius: 9px;
+    border-radius: 7px;
     background: var(--primaria);
-    box-shadow: 0 8px 24px rgba(124, 92, 255, .22);
     color: #fff;
     font-size: .95rem;
     font-weight: 700;
     text-decoration: none;
-    transition: background .2s ease, box-shadow .2s ease, transform .2s ease;
+    transition: background .2s ease;
 }
 
 .btn-adicionar:hover,
 .btn-adicionar:focus-visible {
-    transform: translateY(-2px);
-    background: #6948ef;
-    box-shadow: 0 12px 28px rgba(124, 92, 255, .32);
+    background: #816be0;
 }
 
 .integrantes-vazio {
@@ -208,8 +199,8 @@
     justify-content: center;
     padding: 2rem;
     border: 1px dashed var(--borda);
-    border-radius: 16px;
-    background: rgba(31, 27, 46, .65);
+    border-radius: 12px;
+    background: var(--card);
     text-align: center;
 }
 
@@ -239,7 +230,7 @@
 
 @media (max-width: 560px) {
     .integrantes-cabecalho {
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
     }
 
     .integrantes-descricao {
@@ -247,7 +238,7 @@
     }
 
     .integrantes-titulo {
-        font-size: .85rem;
+        font-size: 2rem;
     }
 }
 

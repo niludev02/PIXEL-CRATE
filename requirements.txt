@@ -4,3 +4,5 @@ python-dotenv
 supabase
 Djangorestframework
 requests
+gunicorn
+whitenoise

@@ -5,26 +5,21 @@
 {% block titulo %}Quem Somos | Pixel Crate{% endblock %}
 
 {% block estilos %}
-<link rel="stylesheet" href="{% static 'css/integrantes.css' %}">
+<link rel="stylesheet" href="{% static 'css/integrantes.css' %}?v=2">
 {% endblock %}
 
 {% block conteudo %}
     <section class="integrantes-cabecalho">
-        <p class="integrantes-etiqueta">PIXEL CRATE / EQUIPE</p>
-        <h2 class="integrantes-titulo">Quem somos</h2>
+        <p class="integrantes-etiqueta">NOSSA EQUIPE</p>
+        <h2 class="integrantes-titulo">As pessoas por trás da Pixel Crate</h2>
         <p class="integrantes-descricao">
-            A Pixel Crate reúne recursos visuais para quem cria jogos e experiências digitais.
-            Conheça as pessoas por trás da nossa equipe.
+            Conheça quem trabalha no catálogo e na experiência da Pixel Crate.
         </p>
-        <h3 class="integrantes-subtitulo">Nossa equipe</h3>
-        {% if integrantes %}
-            <p class="integrantes-descricao">Conheça as pessoas que transformam ideias em experiências pixel a pixel.</p>
-        {% endif %}
         {% if pode_adicionar_integrante %}
             <a href="{% url 'addIntegrante' %}" class="btn-adicionar">+ Adicionar integrante</a>
         {% endif %}
         {% if equipe_completa %}
-            <p class="integrantes-descricao">Nossa equipe está completa.</p>
+            <p class="integrantes-status">Equipe completa</p>
         {% endif %}
     </section>
 
