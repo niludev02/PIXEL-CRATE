@@ -1,0 +1,43 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block titulo %} Contatos {% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'css/contatos.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+    <h2 class="contatos-titulo">Nossos Contatos</h2>
+
+    <div class="tabela-contatos">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Mensagem</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contato in contatos %}
+                    <tr>
+                        <td>{{ contato.nome }}</td>
+                        <td>{{ contato.email }}</td>
+                        <td>{{ contato.telefone }}</td>
+                        <td>{{ contato.mensagem }}</td>
+                        <td>
+                            <form method="post" action="{% url 'excluirContato' contato.id %}" onsubmit="return confirm('Deseja realmente excluir este contato?')">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-excluir">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,6 @@
+Django
+Pillow
+python-dotenv
+supabase
+Djangorestframework
+requests

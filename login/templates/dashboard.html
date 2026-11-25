@@ -1,0 +1,37 @@
+{% extends "template.html" %}
+
+{% load static %}
+
+{% block titulo %}Dashboard{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+<section class="dashboard-card">
+    <div class="dashboard-icon" aria-hidden="true">{{ user.username|first|upper }}</div>
+    <p class="dashboard-kicker">Área restrita</p>
+    <h2>Bem-vindo, {{ user.username }}!</h2>
+    {% if is_pixelcrate_admin %}
+        <p class="dashboard-description">Gerencie a loja e consulte as áreas administrativas.</p>
+    {% else %}
+        <p class="dashboard-description">Acesse seu perfil, a vitrine de produtos ou seus pedidos e seu carrinho.</p>
+    {% endif %}
+
+    <div class="dashboard-actions">
+        <a class="auth-button" href="{% url 'perfil' %}">Editar Perfil</a>
+        {% if is_pixelcrate_admin %}
+            <a class="auth-button" href="{% url 'contatos' %}">Contatos</a>
+            <a class="auth-button" href="{% url 'servicos' %}">Assets</a>
+            <a class="auth-button" href="{% url 'integrantes' %}">Equipe</a>
+            <a class="auth-button" href="{% url 'relatorios' %}">Relatórios</a>
+            <a class="auth-button" href="{% url 'produtos' %}">Vitrine de produtos</a>
+            <a class="auth-button" href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
+        {% else %}
+            <a class="auth-button" href="{% url 'produtos' %}">Vitrine de produtos</a>
+            <a class="auth-button" href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

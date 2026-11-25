@@ -1,0 +1,38 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block titulo %} Graficos {% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'css/relatorios.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+<h2 class="relatorios-titulo">Relatórios</h2>
+<div class="relatorios-graficos">
+    <div class="grafico-categorias">
+        <canvas id="graficoCategorias"></canvas>
+    </div>
+    <div class="grafico-status">
+        <canvas id="graficoStatus"></canvas>
+    </div>
+    <div class="grafico-vendas">
+        <canvas id="graficoVendas"></canvas>
+    </div>
+    <div class="grafico-meses">
+        <canvas id="graficoMeses"></canvas>
+    </div>
+</div>
+{{categorias_labels|json_script:"categorias"}}
+{{categorias_valores|json_script:"quantidades"}}
+{{status_valores|json_script:"status-valores"}}
+{{vendas_labels|json_script:"vendas-categorias"}}
+{{vendas_valores|json_script:"vendas-valores"}}
+{{meses_labels|json_script:"meses"}}
+{{meses_valores|json_script:"pedidos-mes"}}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/relatorio.js' %}"></script>
+
+{% endblock %}

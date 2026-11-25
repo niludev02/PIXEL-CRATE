@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %} Pixel Crate {% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/pixel-crate.svg' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block estilos %}{% endblock %}
+</head>
+
+<body>
+    <header class="site-header">
+        <a href="{% url 'index' %}" class="brand-link" aria-label="Pixel Crate - página inicial">
+            <div class="brand">
+                <img src="{% static 'images/pixel-crate.svg' %}" alt="" class="brand-icon">
+                <div class="brand-copy">
+                    <h1><span>Pixel</span> <span class="brand-accent">Crate</span></h1>
+                    <p>Assets para quem faz jogos e sites</p>
+                </div>
+            </div>
+        </a>
+        <button class="site-nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Abrir menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Navegação principal">
+            <a href="{% url 'integrantes' %}">Quem somos</a>
+            <a href="{% url 'produtos' %}">Produtos</a>
+            <a href="{% url 'novoContato' %}">Contato</a>
+            {% if user.is_authenticated %}
+                {% if is_pixelcrate_admin %}
+                    <a href="{% url 'servicos' %}">Serviços</a>
+                    <a href="{% url 'contatos' %}">Contatos</a>
+                    <a href="{% url 'integrantes' %}">Equipe</a>
+                    <a href="{% url 'relatorios' %}">Relatórios</a>
+                {% endif %}
+                {% if not user.is_superuser %}
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                {% endif %}
+                <div class="account-actions">
+                    <a class="cart-link" href="{% url 'meus_pedidos' %}" aria-label="Carrinho e meus pedidos" title="Carrinho e meus pedidos">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M3 3h2l2.2 11.2a2 2 0 0 0 2 1.6h8.5a2 2 0 0 0 1.9-1.4L21 8H6"></path>
+                            <circle cx="10" cy="19" r="1.4"></circle>
+                            <circle cx="18" cy="19" r="1.4"></circle>
+                        </svg>
+                    </a>
+                    <div class="account-menu">
+                        <button
+                            class="account-avatar"
+                            type="button"
+                            aria-label="Abrir opções do perfil de {{ user.username }}"
+                            aria-expanded="false"
+                            aria-controls="account-menu-panel"
+                        >{{ user.username|first|upper }}</button>
+                        <div class="account-menu-panel" id="account-menu-panel">
+                            <a href="{% url 'perfil' %}">Editar perfil</a>
+                            <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-button">Sair</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}">Entrar</a>
+                <a href="{% url 'cadastrar_usuario' %}" class="nav-register">Cadastrar</a>
+            {% endif %}
+        </nav>
+    </header>
+    {% if messages %}
+        <div class="site-messages" role="status">
+            {% for message in messages %}
+                <p class="site-message site-message-{{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <main>
+        {% block conteudo %}
+        {% endblock %}
+    </main>
+    <script src="{% static 'js/menu.js' %}" defer></script>
+</body>
+
+</html>

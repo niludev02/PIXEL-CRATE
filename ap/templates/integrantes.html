@@ -1,0 +1,62 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block titulo %}Quem Somos | Pixel Crate{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'css/integrantes.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+    <section class="integrantes-cabecalho">
+        <p class="integrantes-etiqueta">PIXEL CRATE / EQUIPE</p>
+        <h2 class="integrantes-titulo">Quem somos</h2>
+        <p class="integrantes-descricao">
+            A Pixel Crate reúne recursos visuais para quem cria jogos e experiências digitais.
+            Conheça as pessoas por trás da nossa equipe.
+        </p>
+        <h3 class="integrantes-subtitulo">Nossa equipe</h3>
+        {% if integrantes %}
+            <p class="integrantes-descricao">Conheça as pessoas que transformam ideias em experiências pixel a pixel.</p>
+        {% endif %}
+        {% if pode_adicionar_integrante %}
+            <a href="{% url 'addIntegrante' %}" class="btn-adicionar">+ Adicionar integrante</a>
+        {% endif %}
+        {% if equipe_completa %}
+            <p class="integrantes-descricao">Nossa equipe está completa.</p>
+        {% endif %}
+    </section>
+
+    <div class="integrantes-container">
+        {% for integrante in integrantes %}
+            <div class="integrante-card">
+                {% if integrante.foto_url %}
+                    <img src="{{ integrante.foto_url }}" alt="{{ integrante.nome }}" class="integrante-foto">
+                {% else %}
+                    <div class="integrante-avatar" aria-hidden="true">{{ integrante.nome|first|upper }}</div>
+                {% endif %}
+                <div class="integrante-info">
+                    <p class="integrante-nome">{{ integrante.nome }}</p>
+                    <p class="integrante-cargo">{{ integrante.cargo }}</p>
+                    <p class="integrante-bio">{{ integrante.biografia }}</p>
+                </div>
+                {% if is_pixelcrate_admin %}
+                    <div class="integrante-acoes">
+                        <a href="{% url 'editarIntegrante' integrante.id %}" class="btn-editar">Editar</a>
+                        <form method="POST" action="{% url 'delIntegrante' integrante.id %}" onsubmit="return confirm('Deseja realmente excluir este integrante?')">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-excluir">Excluir</button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        {% empty %}
+            <div class="integrantes-vazio">
+                <span class="integrantes-vazio-icone" aria-hidden="true">…</span>
+                <h3>Equipe em construção</h3>
+                <p>Estamos preparando novidades. Em breve, você poderá conhecer nossa equipe.</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

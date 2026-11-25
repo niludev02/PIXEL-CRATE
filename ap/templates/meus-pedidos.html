@@ -1,0 +1,125 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block titulo %}Meus Pedidos{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'css/pedidos.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+<section class="pedidos-page">
+    <h2 class="screen-title">Meus pedidos</h2>
+    <p class="screen-subtitle">Revise seu carrinho e acompanhe suas compras</p>
+
+    <section class="carrinho-section" aria-labelledby="carrinho-titulo">
+        <h3 id="carrinho-titulo" class="pedidos-section-title">Carrinho</h3>
+        {% if carrinho %}
+        <article class="pedido-card card carrinho-card">
+            <div class="pedido-header">
+                <div class="pedido-identificacao">
+                    <h3>Itens para comprar</h3>
+                </div>
+                <span class="status-pill status-pendente">Pendente</span>
+            </div>
+
+            <div class="pedido-itens">
+                {% for item in carrinho.itens.all %}
+                <div class="pedido-item carrinho-item">
+                    <div class="pedido-item-info">
+                        <strong>{{ item.asset.nome }}</strong>
+                        <span>{{ item.asset.categoria|default:"Asset" }}</span>
+                    </div>
+                    <strong class="pedido-item-preco">R$ {{ item.preco_unitario|floatformat:2 }}</strong>
+                    <form method="post" action="{% url 'remover_item_carrinho' item.id %}" class="pedido-remover-form">
+                        {% csrf_token %}
+                        <button class="pedido-remover-button" type="submit">Remover</button>
+                    </form>
+                </div>
+                {% empty %}
+                <div class="empty-state carrinho-empty">
+                    <p>Seu carrinho está vazio.</p>
+                    <a class="empty-action" href="{% url 'produtos' %}">Ver produtos</a>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if carrinho.itens.all %}
+            <div class="pedido-footer carrinho-footer">
+                <p>Total calculado <strong>R$ {{ carrinho.total|floatformat:2 }}</strong></p>
+                <form method="post" action="{% url 'comprar_carrinho' %}"
+                    onsubmit="return confirm('Confirmar a compra de todos os assets do carrinho?')">
+                    {% csrf_token %}
+                    <button class="carrinho-checkout-button" type="submit">Calcular total e comprar tudo</button>
+                </form>
+            </div>
+            {% endif %}
+        </article>
+        {% else %}
+        <div class="empty-state carrinho-empty">
+            <p>Seu carrinho está vazio.</p>
+            <a class="empty-action" href="{% url 'produtos' %}">Ver produtos</a>
+        </div>
+        {% endif %}
+    </section>
+
+    <h3 class="pedidos-section-title">Histórico de compras</h3>
+
+    {% for pedido in pedidos %}
+    <article class="pedido-card card">
+        <div class="pedido-header">
+            <div class="pedido-identificacao">
+                <h3>Pedido #{{ pedido.id }}</h3>
+                <time datetime="{{ pedido.criado_em|date:'c' }}">{{ pedido.criado_em|date:"d/m/Y" }}</time>
+            </div>
+            <span class="status-pill {% if pedido.status == 'pago' %}status-pago{% else %}status-pendente{% endif %}">
+                {{ pedido.get_status_display }}
+            </span>
+        </div>
+
+        <div class="pedido-itens">
+            {% for item in pedido.itens.all %}
+            <div class="pedido-item">
+                {% if item.asset.imagem %}
+                    <img src="{{ item.asset.imagem.url }}" alt="">
+                {% else %}
+                    <div class="pedido-item-placeholder" aria-hidden="true"></div>
+                {% endif %}
+                <div class="pedido-item-info">
+                    <strong>{{ item.asset.nome }}</strong>
+                    <span>{{ item.asset.categoria|default:"Asset" }}</span>
+                </div>
+                <strong class="pedido-item-preco">R$ {{ item.preco_unitario|floatformat:2 }}</strong>
+                {% if item.asset.arquivo %}
+                    <a class="pedido-download" href="{{ item.asset.arquivo.url }}" download>Baixar arquivo</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="pedido-footer">
+            <p>Total <strong>R$ {{ pedido.total|floatformat:2 }}</strong></p>
+            <form
+                method="post"
+                action="{% url 'remover_pedido' pedido.id %}"
+                class="pedido-remover-form"
+                onsubmit="return confirm('Remover este pedido da sua lista? A compra será preservada e não poderá ser feita novamente.')"
+            >
+                {% csrf_token %}
+                <button class="pedido-remover-button" type="submit">Remover dos meus pedidos</button>
+            </form>
+        </div>
+    </article>
+    {% empty %}
+    <div class="empty-state pedidos-empty">
+        {% if pedidos_ocultos %}
+            <p>Não há pedidos nesta lista. As compras removidas continuam registradas.</p>
+        {% else %}
+            <p>Você ainda não comprou nenhum asset.</p>
+        {% endif %}
+        <a class="empty-action" href="{% url 'produtos' %}">Ver produtos</a>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

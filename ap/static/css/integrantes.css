@@ -1,0 +1,259 @@
+.integrantes-cabecalho {
+    max-width: 760px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.integrantes-etiqueta {
+    margin-bottom: .9rem;
+    color: var(--acao);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+}
+
+.integrantes-titulo {
+    font-family: "Press Start 2P", monospace;
+    color: var(--texto);
+    font-size: clamp(.9rem, 1.6vw, 1.2rem);
+    font-weight: 700;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.integrantes-subtitulo {
+    margin-bottom: .65rem;
+    color: var(--texto);
+    font-size: 1rem;
+}
+
+.integrantes-descricao {
+    max-width: 560px;
+    margin: 0 auto 1.75rem;
+    color: var(--texto-suave);
+    font-size: 1.05rem;
+}
+
+.integrantes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 1.25rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.integrante-card {
+    position: relative;
+    display: flex;
+    min-height: 330px;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1.5rem 1.25rem;
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    background: linear-gradient(155deg, #252039, var(--card) 65%);
+    text-align: center;
+    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.integrante-card::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primaria), var(--acao));
+    content: "";
+}
+
+.integrante-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primaria);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, .24);
+}
+
+.integrante-foto,
+.integrante-avatar {
+    width: 108px;
+    height: 108px;
+    flex: 0 0 auto;
+    margin-bottom: 1.15rem;
+    border: 3px solid var(--primaria);
+    border-radius: 50%;
+}
+
+.integrante-foto {
+    object-fit: cover;
+    background: var(--borda);
+}
+
+.integrante-avatar {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, var(--primaria), #4a37a8);
+    color: var(--texto);
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.integrante-info {
+    width: 100%;
+    flex: 1;
+}
+
+.integrante-nome {
+    margin-bottom: .35rem;
+    color: var(--texto);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.integrante-cargo {
+    margin-bottom: .85rem;
+    color: var(--acao);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.integrante-bio {
+    color: var(--texto-suave);
+    font-size: .92rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.integrante-acoes {
+    display: flex;
+    width: 100%;
+    gap: .65rem;
+    margin-top: 1.4rem;
+}
+
+.integrante-acoes form {
+    flex: 1;
+}
+
+.btn-editar,
+.btn-excluir {
+    display: inline-flex;
+    width: 100%;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem .75rem;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    font: inherit;
+    font-size: .85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.btn-editar {
+    flex: 1;
+    background: rgba(124, 92, 255, .14);
+    color: var(--texto);
+}
+
+.btn-editar:hover {
+    border-color: var(--primaria);
+    background: rgba(124, 92, 255, .28);
+}
+
+.btn-excluir {
+    background: transparent;
+    color: #ff8e9b;
+    cursor: pointer;
+}
+
+.btn-excluir:hover {
+    border-color: #ff6477;
+    background: rgba(255, 100, 119, .12);
+}
+
+.btn-adicionar {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    padding: .7rem 1.25rem;
+    border: 1px solid var(--primaria);
+    border-radius: 9px;
+    background: var(--primaria);
+    box-shadow: 0 8px 24px rgba(124, 92, 255, .22);
+    color: #fff;
+    font-size: .95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.btn-adicionar:hover,
+.btn-adicionar:focus-visible {
+    transform: translateY(-2px);
+    background: #6948ef;
+    box-shadow: 0 12px 28px rgba(124, 92, 255, .32);
+}
+
+.integrantes-vazio {
+    grid-column: 1 / -1;
+    display: flex;
+    min-height: 250px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border: 1px dashed var(--borda);
+    border-radius: 16px;
+    background: rgba(31, 27, 46, .65);
+    text-align: center;
+}
+
+.integrantes-vazio-icone {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    place-items: center;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    background: var(--card);
+    color: var(--acao);
+    font-size: 1.6rem;
+}
+
+.integrantes-vazio h3 {
+    margin-bottom: .5rem;
+    color: var(--texto);
+    font-size: 1.15rem;
+}
+
+.integrantes-vazio p {
+    max-width: 440px;
+    color: var(--texto-suave);
+}
+
+@media (max-width: 560px) {
+    .integrantes-cabecalho {
+        margin-bottom: 2rem;
+    }
+
+    .integrantes-descricao {
+        font-size: .95rem;
+    }
+
+    .integrantes-titulo {
+        font-size: .85rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .integrante-card,
+    .btn-adicionar {
+        transition: none;
+    }
+}

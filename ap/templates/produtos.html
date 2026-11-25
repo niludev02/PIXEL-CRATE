@@ -1,0 +1,98 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block titulo %}Produtos{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'css/produtos.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+<section class="catalogo-assets">
+    <h2 class="screen-title produtos-titulo">Nossos assets</h2>
+    <p class="screen-subtitle">Sprites, tilesets e interfaces prontos para usar</p>
+
+    <div class="produtos-container">
+        {% for produto in produtos %}
+        <article class="produto-card card">
+            {% if produto.imagem %}
+                <img class="produto-imagem" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+            {% else %}
+                <div class="produto-imagem produto-placeholder" aria-hidden="true">Pixel Crate</div>
+            {% endif %}
+            <div class="produto-conteudo">
+                <h3>{{ produto.nome }}</h3>
+                <p class="produto-categoria">{{ produto.categoria|default:"Asset" }}</p>
+                <p class="produto-descricao">{{ produto.descricao }}</p>
+                <div class="produto-rodape">
+                    <strong class="produto-preco">R$ {{ produto.preco|floatformat:2 }}</strong>
+                    {% if produto.id in adquiridos %}
+                        <span class="produto-adquirido">Já adquirido</span>
+                    {% elif produto.id in no_carrinho %}
+                        <a class="produto-adquirido produto-no-carrinho" href="{% url 'meus_pedidos' %}">No carrinho</a>
+                    {% elif user.is_authenticated %}
+                        <form method="post" action="{% url 'adicionar_carrinho' produto.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="produto-botao">Adicionar ao carrinho</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}" class="produto-botao">Entrar para comprar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        <div class="empty-state catalogo-empty">
+            <p>Nenhum asset disponível no momento.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="parceiros">
+    <h2 class="screen-title produtos-titulo">Jogos pixel art da RAWG</h2>
+    <p class="screen-subtitle">Somente jogos pixel art; conteúdo adulto é bloqueado</p>
+
+    {% if produtos_api %}
+    <div class="produtos-container">
+        {% for prod in produtos_api %}
+        <a
+            class="produto-card parceiro-card card rawg-game-card"
+            href="https://rawg.io/games/{{ prod.slug|urlencode }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Abrir {{ prod.name }} na RAWG em uma nova aba"
+        >
+            {% if prod.background_image %}
+                <img class="produto-imagem" src="{{ prod.background_image }}" alt="{{ prod.name|default:'Jogo' }}">
+            {% else %}
+                <div class="produto-imagem produto-placeholder" aria-hidden="true">RAWG</div>
+            {% endif %}
+            <div class="produto-conteudo">
+                <h3>{{ prod.name|default:"Jogo sem título" }}</h3>
+                <div class="rawg-meta">
+                    {% if prod.released %}
+                        <span>Lançamento: {{ prod.released }}</span>
+                    {% endif %}
+                    {% if prod.metacritic %}
+                        <strong>Metacritic: {{ prod.metacritic }}/100</strong>
+                    {% elif prod.rating %}
+                        <strong>Avaliação RAWG: {{ prod.rating }}/5</strong>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% elif erro_api_rawg %}
+    <div class="empty-state parceiros-empty">
+        <p>{{ erro_api_rawg }}</p>
+    </div>
+    {% else %}
+    <div class="empty-state parceiros-empty">
+        <p>Nenhum jogo pixel art disponível no momento.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

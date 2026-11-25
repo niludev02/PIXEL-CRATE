@@ -1,0 +1,79 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block titulo %} Pixel Crate | Assets para criadores {% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+<section class="home-hero" aria-labelledby="home-title">
+    <div class="home-copy">
+        <p class="home-eyebrow">PIXEL CRATE <span>/</span> ASSET STORE</p>
+        <h2 id="home-title" class="home-title">Seu próximo mundo começa <span>nos pixels.</span></h2>
+        <p class="home-description">
+            Sprites, tilesets e recursos visuais para tirar ideias do papel e levar seus projetos
+            para outro nível — um pixel de cada vez.
+        </p>
+        <div class="home-actions">
+            <a class="home-button home-button-primary" href="{% url 'produtos' %}">Explorar assets <span aria-hidden="true">→</span></a>
+            <a class="home-button home-button-secondary" href="{% url 'integrantes' %}">Conhecer a equipe</a>
+        </div>
+        <p class="home-note"><span aria-hidden="true"></span> Feito para quem cria jogos e sites</p>
+    </div>
+
+    <div class="home-preview">
+        <div class="preview-topbar">
+            <span>WORLD_001</span>
+            <span class="preview-status"><i></i> PRONTO PARA CRIAR</span>
+        </div>
+        <div class="preview-scene" aria-hidden="true">
+            <div class="scene-stars"></div>
+            <div class="scene-moon"></div>
+            <div class="scene-hill scene-hill-back"></div>
+            <div class="scene-hill scene-hill-front"></div>
+            <div class="scene-ground"></div>
+            <div class="scene-slime"><i></i></div>
+        </div>
+        <div class="preview-caption">
+            <div>
+                <strong>Um mundo, infinitas ideias</strong>
+                <span>Sprites + tilesets + criatividade</span>
+            </div>
+            <span class="preview-spark" aria-hidden="true">✦</span>
+        </div>
+    </div>
+</section>
+
+<section class="home-features" aria-labelledby="features-title">
+    <div class="home-section-heading">
+        <p class="home-eyebrow">MONTE SEU UNIVERSO</p>
+        <h2 id="features-title">Tudo começa com um bom asset.</h2>
+    </div>
+    <div class="feature-grid">
+        <article class="feature-card">
+            <span class="feature-icon feature-icon-sprites" aria-hidden="true"></span>
+            <h3>Sprites</h3>
+            <p>Personagens, objetos e elementos prontos para dar personalidade ao seu projeto.</p>
+        </article>
+        <article class="feature-card">
+            <span class="feature-icon feature-icon-tiles" aria-hidden="true"></span>
+            <h3>Tilesets</h3>
+            <p>Monte cenários, fases e mundos completos com peças feitas para combinar.</p>
+        </article>
+        <article class="feature-card">
+            <span class="feature-icon feature-icon-ui" aria-hidden="true">UI</span>
+            <h3>Interfaces e recursos</h3>
+            <p>Detalhes visuais que ajudam sua ideia a ganhar forma e ficar pronta para jogar.</p>
+        </article>
+    </div>
+</section>
+
+<section class="home-cta">
+    <p class="home-eyebrow">SUA PRÓXIMA FASE COMEÇA AQUI</p>
+    <h2>Transforme uma ideia em um mundo.</h2>
+    <a class="home-button home-button-primary" href="{% url 'produtos' %}">Ver catálogo <span aria-hidden="true">→</span></a>
+</section>
+{% endblock %}

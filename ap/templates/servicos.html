@@ -1,0 +1,139 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block titulo %}Assets{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'css/servicos.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+<section class="assets-page">
+    <h2 class="screen-title servicos-titulo">Assets</h2>
+
+    <section class="asset-stats" aria-label="Estatísticas dos assets">
+        <article class="asset-stat card">
+            <span>Assets cadastrados</span>
+            <strong>{{ total_servicos }}</strong>
+        </article>
+        <article class="asset-stat card">
+            <span>Menor preço</span>
+            {% if mais_barato %}
+                <strong>R$ {{ mais_barato.preco|floatformat:2 }}</strong>
+            {% else %}
+                <strong>—</strong>
+            {% endif %}
+        </article>
+        <article class="asset-stat card">
+            <span>Maior preço</span>
+            {% if mais_caro %}
+                <strong>R$ {{ mais_caro.preco|floatformat:2 }}</strong>
+            {% else %}
+                <strong>—</strong>
+            {% endif %}
+        </article>
+    </section>
+
+    <form class="asset-toolbar" method="GET">
+        <div class="asset-search">
+            <input
+                type="search"
+                name="busca"
+                aria-label="Buscar por nome do asset"
+                placeholder="Buscar por nome do asset"
+                value="{{ busca|default:'' }}"
+            >
+            <button type="submit">Buscar</button>
+        </div>
+        <a href="{% url 'addServico' %}" class="btn btn-adicionar">Adicionar asset</a>
+    </form>
+
+    <details class="filtros-avancados">
+        <summary>Mais filtros</summary>
+        <div class="filtros-opcoes-avancadas">
+            <div class="filtro-grupo">
+                <h3>Categoria</h3>
+                <div class="filtro-opcoes">
+                    {% for categoria_item in categorias %}
+                        <a href="?categoria={{ categoria_item.id }}" class="filtro-opcao">{{ categoria_item.nome }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="filtro-grupo">
+                <h3>Faixa de preço</h3>
+                <div class="filtro-opcoes">
+                    <a href="?preco=baixo" class="filtro-opcao">Até R$ 50,00</a>
+                    <a href="?preco=medio" class="filtro-opcao">Até R$ 250,00</a>
+                    <a href="?preco=alto" class="filtro-opcao">Acima de R$ 250,00</a>
+                </div>
+            </div>
+
+            <div class="filtro-grupo">
+                <h3>Ordenar por</h3>
+                <div class="filtro-opcoes">
+                    <a href="?ordem=menor" class="filtro-opcao">Menor preço</a>
+                    <a href="?ordem=maior" class="filtro-opcao">Maior preço</a>
+                    <a href="?ordem=nome" class="filtro-opcao">Nome</a>
+                </div>
+            </div>
+
+            <a href="{% url 'servicos' %}" class="filtro-limpar">Limpar filtros</a>
+        </div>
+    </details>
+
+    <div class="tabela-servicos card">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Preview</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Preço</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for servico in servicos %}
+                <tr>
+                    <td class="asset-preview">
+                        {% if servico.imagem %}
+                            <img src="{{ servico.imagem.url }}" alt="Prévia de {{ servico.nome }}">
+                        {% else %}
+                            <span class="asset-placeholder" aria-label="Sem prévia">—</span>
+                        {% endif %}
+                    </td>
+                    <td class="asset-name">{{ servico.nome }}</td>
+                    <td>{{ servico.categoria|default:"—" }}</td>
+                    <td>R$ {{ servico.preco|floatformat:2 }}</td>
+                    <td>
+                        {% if servico.ativo %}
+                            <span class="asset-status asset-status-active">Ativo</span>
+                        {% else %}
+                            <span class="asset-status asset-status-inactive">Inativo</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="asset-actions">
+                            <a href="{% url 'editarServico' servico.id %}" class="btn btn-editar">Editar</a>
+                            <form method="post" action="{% url 'excluirServico' servico.id %}" onsubmit="return confirm('Deseja realmente excluir este asset?')">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-excluir">Excluir</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">Nenhum asset encontrado.</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
