@@ -92,6 +92,7 @@ def servicos(request):
     servicos = Asset.objects.select_related("categoria")
      
     total_servicos = servicos.count()
+    total_ativos = servicos.filter(ativo=True).count()
     tem_servicos = servicos.exists()
     
     mais_barato = servicos.order_by('preco').first()
@@ -131,6 +132,7 @@ def servicos(request):
     contexto = {
         'servicos': servicos,
         'total_servicos': total_servicos,
+        'total_ativos': total_ativos,
         'tem_servicos': tem_servicos,
         'mais_barato': mais_barato,
         'mais_caro': mais_caro,

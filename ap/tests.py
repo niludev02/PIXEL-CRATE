@@ -164,20 +164,29 @@ class AssetScreenTests(TestCase):
     def test_asset_management_shows_active_free_and_inactive_assets(self):
         admin = create_admin_user("admin-assets")
         self.client.force_login(admin)
-        Asset.objects.create(nome="Asset grátis", descricao="", preco=0, ativo=True)
+        Asset.objects.create(
+            nome="Asset grátis",
+            descricao="Descrição de teste do asset",
+            preco=0,
+            ativo=True,
+        )
         Asset.objects.create(nome="Asset oculto", descricao="", preco=25, ativo=False)
 
         response = self.client.get(reverse("servicos"))
 
+        self.assertContains(response, "Gerenciamento de Assets")
         self.assertContains(response, "Asset grátis")
         self.assertContains(response, "Asset oculto")
+        self.assertContains(response, "Descrição de teste do asset")
         self.assertContains(response, "Ativo")
         self.assertContains(response, "Inativo")
         self.assertContains(response, "Assets cadastrados")
         self.assertContains(response, "Menor preço")
         self.assertContains(response, "Maior preço")
+        self.assertContains(response, "Assets ativos")
+        self.assertContains(response, "Filtros e pesquisa")
         self.assertContains(response, "Buscar por nome do asset")
-        self.assertContains(response, "Adicionar asset")
+        self.assertContains(response, "Novo asset")
 
     def test_client_cannot_open_asset_management(self):
         client_user = User.objects.create_user(
