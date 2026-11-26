@@ -1,0 +1,119 @@
+.form-titulo {
+    font-family: "Press Start 2P", monospace;
+    text-align: center;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-weight: 400;
+    line-height: 1.8;
+    margin: clamp(2rem, 5vw, 3.5rem) auto 1.5rem;
+    color: var(--texto);
+    padding: 0 1rem;
+}
+
+.form-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 1.25rem 3rem;
+    box-sizing: border-box;
+}
+
+.contato-form {
+    width: 100%;
+    max-width: 680px;
+    background: radial-gradient(ellipse at top right, rgba(124, 92, 255, .16), transparent 60%), var(--card);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    padding: clamp(1.25rem, 4vw, 2.25rem);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, .22);
+    box-sizing: border-box;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.2rem;
+}
+
+.campo label {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--texto);
+    margin-bottom: .45rem;
+}
+
+.campo input,
+.campo textarea {
+    width: 100%;
+    border: 1px solid var(--borda);
+    background: var(--texto-escuro);
+    border-radius: 10px;
+    padding: .8rem .9rem;
+    font-size: 1rem;
+    color: var(--texto);
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+    border-color: var(--acao);
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, .2);
+    outline: none;
+}
+
+.campo textarea {
+    min-height: 180px;
+    resize: vertical;
+}
+
+.contato-form button {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    background: var(--primaria);
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding: .9rem 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-family: inherit;
+    transition: background .2s, transform .2s;
+}
+
+.contato-form button:hover,
+.contato-form button:focus-visible {
+    background: #6948ef;
+    transform: translateY(-1px);
+}
+
+.contato-form button:focus-visible {
+    outline: 2px solid var(--acao);
+    outline-offset: 3px;
+}
+
+.form-errors {
+    margin: 1.25rem 0 0;
+    background: #fff0f0;
+    border: 1px solid #efcaca;
+    border-radius: 8px;
+    color: #a63e3e;
+    padding: .65rem .75rem;
+    box-sizing: border-box;
+}
+
+.form-errors ul {
+    margin: .4rem 0 0;
+    padding-left: 1.25rem;
+}
+
+@media (max-width: 560px) {
+    .form-container {
+        padding: 0 1rem 2rem;
+    }
+
+    .form-titulo {
+        margin-top: 2rem;
+    }
+}

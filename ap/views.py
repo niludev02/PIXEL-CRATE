@@ -7,10 +7,11 @@ from django.db.models.functions import TruncMonth
 from django.http import Http404, request
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
+import logging
 import re
 from .serializers import CategoriaSerializer
 from .models import Asset, Contato, Categoria, ItemPedido, Pedido
-from .forms import FormContato, FormServico
+from .forms import AssetFilterForm, FormContato, FormServico
 from .supabase_client import supabase
 from .permissions import AdminOrReadOnly
 from login.permissions import administrator_required, is_administrator
@@ -19,8 +20,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 import os
 import requests
+from storage3.exceptions import StorageApiError
 
 # Create your views here.
+logger = logging.getLogger(__name__)
 MAX_INTEGRANTES = 3
 RAWG_PIXEL_ART_TAGS = {"pixel-graphics", "pixel-art", "pixelart"}
 RAWG_ADULT_CONTENT_TERMS = {
@@ -99,35 +102,29 @@ def servicos(request):
     mais_caro = servicos.order_by('-preco').first()
     
     
-    #recupera o valor do formulário de busca enviado pelo usuário
-    busca = request.GET.get('busca')
-    if busca:
-        servicos = servicos.filter(nome__icontains=busca)
-        
-    #recupera as categorias ativas para exibir no filtro
-    categorias = Categoria.objects.filter(ativo=True)
-    
-    #recupera o valor do filtro de categoria enviado pelo usuário
-    categoria = request.GET.get('categoria')
-    if categoria:
-        #aplica o filtro de categoria aos serviços
-        servicos = servicos.filter(categoria_id=categoria)
-        
-    preco = request.GET.get('preco')
-    if preco == 'baixo':
-        servicos = servicos.filter(preco__lte=50)
-    elif preco == 'medio':
-        servicos = servicos.filter(preco__gt=50, preco__lte=250)
-    elif preco == 'alto':
-        servicos = servicos.filter(preco__gt=250)
-    
-    ordem = request.GET.get('ordem')
-    if ordem == 'menor':
-        servicos = servicos.order_by('preco')
-    elif ordem == 'maior':
-        servicos = servicos.order_by('-preco')
-    elif ordem == 'nome':
-        servicos = servicos.order_by('nome')
+    filtros = AssetFilterForm(request.GET)
+    if filtros.is_valid():
+        dados_filtro = filtros.cleaned_data
+        if dados_filtro["busca"]:
+            servicos = servicos.filter(nome__icontains=dados_filtro["busca"])
+        if dados_filtro["categoria"]:
+            servicos = servicos.filter(categoria=dados_filtro["categoria"])
+        if dados_filtro["preco_min"] is not None:
+            servicos = servicos.filter(preco__gte=dados_filtro["preco_min"])
+        if dados_filtro["preco_max"] is not None:
+            servicos = servicos.filter(preco__lte=dados_filtro["preco_max"])
+        if dados_filtro["status"] == "ativo":
+            servicos = servicos.filter(ativo=True)
+        elif dados_filtro["status"] == "inativo":
+            servicos = servicos.filter(ativo=False)
+
+        ordem = dados_filtro["ordem"]
+        if ordem == "menor":
+            servicos = servicos.order_by("preco")
+        elif ordem == "maior":
+            servicos = servicos.order_by("-preco")
+        elif ordem == "nome":
+            servicos = servicos.order_by("nome")
 
     contexto = {
         'servicos': servicos,
@@ -136,11 +133,7 @@ def servicos(request):
         'tem_servicos': tem_servicos,
         'mais_barato': mais_barato,
         'mais_caro': mais_caro,
-        'busca': busca,
-        'categoria': categoria,
-        'categorias': categorias,
-        'preco': preco,
-        'ordem' : ordem,
+        'filtros': filtros,
     }
         
     return render (request, "servicos.html", contexto)
@@ -150,16 +143,34 @@ def addServico(request):
     form = FormServico(request.POST or None, request.FILES or None)
     if request.method == "POST":
         if form.is_valid():
-            form.save()
-            return redirect('servicos')
+            if _save_asset_form(form):
+                return redirect('servicos')
 
     return render (request, "add-servico.html", {'form': form})
+
+
+def _save_asset_form(form):
+    try:
+        form.save()
+    except StorageApiError:
+        logger.exception("Falha ao enviar arquivo de asset para o Supabase.")
+        form.add_error(
+            None,
+            "Não foi possível enviar os arquivos ao armazenamento. "
+            "Verifique as permissões do bucket e tente novamente.",
+        )
+        return False
+    return True
+
 
 @administrator_required
 @require_POST
 def excluirServico(request, id):
     servico = get_object_or_404(Asset, id=id)
-    imagem = servico.imagem
+    arquivos = (
+        ("a imagem de prévia", servico.imagem),
+        ("o arquivo de download", servico.arquivo),
+    )
     try:
         servico.delete()
     except ProtectedError:
@@ -169,8 +180,27 @@ def excluirServico(request, id):
         )
         return redirect("servicos")
 
-    if imagem:
-        imagem.delete(save=False)
+    falhas_no_armazenamento = []
+    for descricao, arquivo in arquivos:
+        if not arquivo:
+            continue
+        try:
+            arquivo.delete(save=False)
+        except StorageApiError:
+            logger.exception(
+                "Falha ao apagar %s do asset %s no Supabase.",
+                descricao,
+                id,
+            )
+            falhas_no_armazenamento.append(descricao)
+
+    if falhas_no_armazenamento:
+        arquivos_com_falha = " e ".join(falhas_no_armazenamento)
+        messages.warning(
+            request,
+            f"Asset removido, mas não foi possível apagar {arquivos_com_falha} "
+            "do armazenamento. Confira os logs.",
+        )
     return redirect('servicos')
 
 @administrator_required
@@ -179,8 +209,8 @@ def editarServico(request, id):
     form = FormServico(request.POST or None, request.FILES or None, instance=servico)
     if request.POST:
         if form.is_valid():
-            form.save()
-            return redirect('servicos')
+            if _save_asset_form(form):
+                return redirect('servicos')
 
     return render (request, "editar-servico.html", {'form': form})
 

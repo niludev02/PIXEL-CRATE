@@ -1,0 +1,333 @@
+.assets-page {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.assets-header {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.assets-eyebrow {
+    color: var(--acao);
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    margin: 0 0 .35rem;
+    text-transform: uppercase;
+}
+
+.servicos-titulo {
+    margin: 0 0 .4rem;
+}
+
+.assets-intro {
+    color: var(--texto-suave);
+    font-size: .85rem;
+    margin: 0;
+}
+
+.asset-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .75rem;
+    margin-bottom: 1.1rem;
+}
+
+.asset-stat {
+    display: grid;
+    gap: .3rem;
+    padding: .8rem 1rem;
+}
+
+.asset-stat span {
+    color: var(--texto-suave);
+    font-size: .75rem;
+}
+
+.asset-stat strong {
+    color: var(--texto);
+    font-size: 1rem;
+}
+
+.asset-filters,
+.asset-list {
+    margin-bottom: 1rem;
+    padding: 1rem 1.1rem;
+}
+
+.asset-section-heading {
+    margin-bottom: .85rem;
+}
+
+.asset-section-heading h3 {
+    color: var(--texto);
+    font-size: .95rem;
+    margin: 0 0 .25rem;
+}
+
+.asset-section-heading p {
+    color: var(--texto-suave);
+    font-size: .75rem;
+    margin: 0;
+}
+
+.asset-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: .85rem;
+}
+
+.asset-filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    min-width: 0;
+}
+
+.asset-filter-search,
+.asset-filter-category {
+    grid-column: span 2;
+}
+
+.asset-filter-field label {
+    color: var(--texto-suave);
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+.asset-filter-field input,
+.asset-filter-field select {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding: .6rem .7rem;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--texto);
+    font: inherit;
+    font-size: .82rem;
+}
+
+.asset-filter-field input:focus,
+.asset-filter-field select:focus {
+    border-color: var(--primaria);
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, .18);
+    outline: none;
+}
+
+.asset-filter-error {
+    color: #ff9a9a;
+    font-size: .72rem;
+}
+
+.asset-filter-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+    margin-top: 1rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: .35rem .7rem;
+    border-radius: 8px;
+    font-size: .78rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .2s, border-color .2s, color .2s, transform .2s;
+}
+
+.btn-adicionar {
+    border: 0;
+    background: var(--acao);
+    color: var(--bg);
+}
+
+.btn-adicionar:hover,
+.btn-adicionar:focus-visible {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+.btn-filtrar {
+    border: 1px solid var(--primaria);
+    background: var(--primaria);
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-filtrar:hover,
+.btn-filtrar:focus-visible {
+    background: #6948ef;
+    border-color: #6948ef;
+    transform: translateY(-1px);
+}
+
+.btn-limpar {
+    border: 1px solid var(--borda);
+    background: transparent;
+    color: var(--texto-suave);
+}
+
+.btn-limpar:hover,
+.btn-limpar:focus-visible {
+    border-color: var(--acao);
+    color: var(--texto);
+    transform: translateY(-1px);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--acao);
+    outline-offset: 3px;
+}
+
+.tabela-servicos {
+    overflow: hidden;
+}
+
+.tabela-servicos table {
+    min-width: 900px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .78rem;
+    text-align: left;
+}
+
+.tabela-servicos th,
+.tabela-servicos td {
+    padding: .55rem .65rem;
+    border-bottom: 1px solid var(--borda);
+    vertical-align: middle;
+}
+
+.tabela-servicos th {
+    color: var(--texto-suave);
+    font-size: .7rem;
+    font-weight: 500;
+}
+
+.tabela-servicos tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.asset-preview {
+    width: 52px;
+}
+
+.tabela-servicos img,
+.asset-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--texto-suave);
+    object-fit: cover;
+}
+
+.asset-name {
+    font-weight: 600;
+}
+
+.asset-description {
+    color: var(--texto-suave);
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.asset-status {
+    font-size: .75rem;
+}
+
+.asset-status-active {
+    color: var(--acao);
+}
+
+.asset-status-inactive {
+    color: var(--texto-suave);
+}
+
+.asset-actions {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+}
+
+.asset-actions form {
+    margin: 0;
+}
+
+.btn-editar {
+    color: #bba8ff;
+}
+
+.btn-excluir {
+    padding-right: 0;
+    padding-left: 0;
+    border: 0;
+    background: transparent;
+    color: var(--texto-suave);
+    cursor: pointer;
+}
+
+.asset-actions .btn-excluir:hover {
+    color: var(--texto);
+}
+
+@media (max-width: 700px) {
+    .asset-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .assets-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .asset-filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .asset-filter-search,
+    .asset-filter-category {
+        grid-column: span 2;
+    }
+
+    .asset-filters,
+    .asset-list {
+        padding: .9rem;
+    }
+
+    .tabela-servicos {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 420px) {
+    .asset-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .asset-filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .asset-filter-search,
+    .asset-filter-category {
+        grid-column: auto;
+    }
+}

@@ -1,0 +1,264 @@
+.auth-card {
+    background: var(--card);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, .22);
+    margin: 0 auto;
+    max-width: 560px;
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+.auth-heading {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.auth-heading h2,
+.dashboard-heading h2 {
+    font-family: "Press Start 2P", monospace;
+    color: var(--texto);
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.8;
+    margin-bottom: .45rem;
+}
+
+.auth-heading p:not(.auth-kicker) {
+    color: var(--texto-suave);
+}
+
+.auth-kicker,
+.dashboard-kicker {
+    color: var(--acao);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    margin-bottom: .35rem;
+    text-transform: uppercase;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: .85rem;
+}
+
+.auth-form p {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+}
+
+.auth-form label {
+    color: var(--texto);
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+.auth-form input {
+    background: var(--texto-escuro);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    color: var(--texto);
+    font: inherit;
+    padding: .75rem .85rem;
+    width: 100%;
+}
+
+.auth-form input:focus {
+    border-color: var(--acao);
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, .2);
+    outline: none;
+}
+
+.auth-form .helptext {
+    color: var(--texto-suave);
+    font-size: .8rem;
+    line-height: 1.4;
+}
+
+.auth-form ul {
+    color: var(--texto-suave);
+    font-size: .82rem;
+    padding-left: 1.1rem;
+}
+
+.auth-error {
+    background: #fff0f0;
+    border: 1px solid #efcaca;
+    border-radius: 8px;
+    color: #a63e3e;
+    padding: .65rem .75rem;
+}
+
+.auth-success {
+    background: rgba(61, 220, 151, .12);
+    border: 1px solid rgba(61, 220, 151, .35);
+    border-radius: 8px;
+    color: var(--acao);
+    margin-bottom: 1rem;
+    padding: .75rem;
+}
+
+.auth-footer {
+    color: var(--texto-suave);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.auth-footer a {
+    color: var(--texto);
+    font-weight: 700;
+}
+
+.auth-button {
+    align-items: center;
+    background: var(--primaria);
+    border: 0;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-weight: 700;
+    justify-content: center;
+    padding: .75rem 1.1rem;
+    text-decoration: none;
+    transition: background .2s, transform .2s;
+}
+
+.auth-button:hover,
+.auth-button:focus {
+    background: #6948ef;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.dashboard-page {
+    margin: 0 auto;
+    max-width: 1180px;
+    padding: clamp(1.5rem, 4vw, 3rem) 1.25rem;
+}
+
+.dashboard-heading {
+    background: radial-gradient(ellipse at top right, rgba(124, 92, 255, .18), transparent 58%), var(--card);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, .22);
+    margin: 0 auto 2rem;
+    max-width: none;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    text-align: center;
+    width: 100%;
+}
+
+.dashboard-intro {
+    color: var(--texto-suave);
+    margin: 0 auto;
+    max-width: 620px;
+}
+
+.dashboard-icon {
+    align-items: center;
+    background: var(--primaria);
+    border: 5px solid rgba(255, 255, 255, .8);
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    font-size: 2rem;
+    font-weight: 800;
+    height: 76px;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    width: 76px;
+}
+
+.dashboard-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dashboard-tile {
+    background: radial-gradient(ellipse at top right, rgba(124, 92, 255, .14), transparent 60%), var(--card);
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .18);
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    min-height: 190px;
+    padding: 1.4rem;
+    text-decoration: none;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+
+.dashboard-tile:hover,
+.dashboard-tile:focus-visible {
+    border-color: var(--acao);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .25);
+    transform: translateY(-3px);
+}
+
+.dashboard-tile:focus-visible {
+    outline: 2px solid var(--acao);
+    outline-offset: 3px;
+}
+
+.dashboard-tile-category {
+    color: var(--acao);
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.dashboard-tile h3 {
+    color: var(--texto);
+    font-family: "Press Start 2P", monospace;
+    font-size: .72rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.dashboard-tile p {
+    color: var(--texto-suave);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.auth-button-outline {
+    background: transparent;
+    border: 1px solid var(--borda);
+    color: var(--texto);
+}
+
+.auth-button-outline:hover,
+.auth-button-outline:focus {
+    background: var(--primaria);
+    color: #fff;
+}
+
+@media (max-width: 560px) {
+    .auth-card {
+        padding: 1.35rem;
+    }
+
+    .dashboard-page {
+        padding: 1.5rem 1rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-tile {
+        min-height: 0;
+    }
+}
+
+@media (min-width: 561px) and (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

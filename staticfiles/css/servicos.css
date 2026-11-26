@@ -75,51 +75,62 @@
     margin: 0;
 }
 
-.asset-toolbar {
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-    margin-bottom: .7rem;
+.asset-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: .85rem;
 }
 
-.asset-search {
+.asset-filter-field {
     display: flex;
-    flex: 1;
-    gap: .5rem;
+    flex-direction: column;
+    gap: .4rem;
     min-width: 0;
 }
 
-.asset-search input {
-    flex: 1;
+.asset-filter-search,
+.asset-filter-category {
+    grid-column: span 2;
+}
+
+.asset-filter-field label {
+    color: var(--texto-suave);
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+.asset-filter-field input,
+.asset-filter-field select {
+    box-sizing: border-box;
+    width: 100%;
     min-width: 0;
-    padding: .55rem .7rem;
+    min-height: 42px;
+    padding: .6rem .7rem;
     border: 1px solid var(--borda);
-    border-radius: 6px;
-    background: var(--card);
+    border-radius: 8px;
+    background: var(--bg);
     color: var(--texto);
     font: inherit;
     font-size: .82rem;
 }
 
-.asset-search input:focus {
+.asset-filter-field input:focus,
+.asset-filter-field select:focus {
     border-color: var(--primaria);
-    outline: 2px solid rgba(124, 92, 255, .2);
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, .18);
+    outline: none;
 }
 
-.asset-search button {
-    border: 0;
-    padding: .5rem 1rem;
-    border-radius: 6px;
-    background: var(--primaria);
-    color: #fff;
-    font-size: .82rem;
-    font-weight: 700;
-    cursor: pointer;
+.asset-filter-error {
+    color: #ff9a9a;
+    font-size: .72rem;
 }
 
-.asset-search button:hover,
-.asset-search button:focus-visible {
-    background: #6948ef;
+.asset-filter-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+    margin-top: 1rem;
 }
 
 .btn {
@@ -128,11 +139,12 @@
     justify-content: center;
     min-height: 32px;
     padding: .35rem .7rem;
-    border-radius: 4px;
-    font-size: .75rem;
-    font-weight: 600;
+    border-radius: 8px;
+    font-size: .78rem;
+    font-weight: 700;
     text-decoration: none;
     white-space: nowrap;
+    transition: background .2s, border-color .2s, color .2s, transform .2s;
 }
 
 .btn-adicionar {
@@ -144,54 +156,39 @@
 .btn-adicionar:hover,
 .btn-adicionar:focus-visible {
     filter: brightness(1.08);
+    transform: translateY(-1px);
 }
 
-.filtros-avancados {
-    border-top: 1px solid var(--borda);
-    padding-top: .75rem;
-}
-
-.filtros-avancados summary {
-    color: var(--texto-suave);
+.btn-filtrar {
+    border: 1px solid var(--primaria);
+    background: var(--primaria);
+    color: #fff;
     cursor: pointer;
-    font-size: .78rem;
-    font-weight: 600;
 }
 
-.filtros-opcoes-avancadas {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: .85rem;
-    padding-top: .9rem;
+.btn-filtrar:hover,
+.btn-filtrar:focus-visible {
+    background: #6948ef;
+    border-color: #6948ef;
+    transform: translateY(-1px);
 }
 
-.filtro-grupo h3 {
-    margin: 0 0 .45rem;
+.btn-limpar {
+    border: 1px solid var(--borda);
+    background: transparent;
     color: var(--texto-suave);
-    font-size: .74rem;
-    font-weight: 600;
 }
 
-.filtro-opcoes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .35rem;
-}
-
-.filtro-opcao,
-.filtro-limpar {
-    color: var(--texto-suave);
-    font-size: .72rem;
-    text-decoration: none;
-}
-
-.filtro-opcao:hover,
-.filtro-limpar:hover {
+.btn-limpar:hover,
+.btn-limpar:focus-visible {
+    border-color: var(--acao);
     color: var(--texto);
+    transform: translateY(-1px);
 }
 
-.filtro-limpar {
-    align-self: end;
+.btn:focus-visible {
+    outline: 2px solid var(--acao);
+    outline-offset: 3px;
 }
 
 .tabela-servicos {
@@ -301,9 +298,13 @@
         flex-direction: column;
     }
 
-    .asset-toolbar {
-        align-items: stretch;
-        flex-direction: column;
+    .asset-filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .asset-filter-search,
+    .asset-filter-category {
+        grid-column: span 2;
     }
 
     .asset-filters,
@@ -319,5 +320,14 @@
 @media (max-width: 420px) {
     .asset-stats {
         grid-template-columns: 1fr;
+    }
+
+    .asset-filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .asset-filter-search,
+    .asset-filter-category {
+        grid-column: auto;
     }
 }

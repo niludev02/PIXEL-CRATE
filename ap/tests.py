@@ -8,6 +8,7 @@ from django.db.models.fields.files import FieldFile
 from django.test import TestCase
 from django.urls import reverse
 from requests import RequestException
+from storage3.exceptions import StorageApiError
 
 from login.models import Perfil
 
@@ -334,8 +335,98 @@ class AssetScreenTests(TestCase):
         self.assertContains(response, "Maior preço")
         self.assertContains(response, "Assets ativos")
         self.assertContains(response, "Filtros e pesquisa")
-        self.assertContains(response, "Buscar por nome do asset")
+        self.assertContains(response, "Nome do asset")
         self.assertContains(response, "Novo asset")
+
+    def test_asset_management_filters_by_category_price_and_status(self):
+        admin = create_admin_user("admin-assets-filtros")
+        category = Categoria.objects.create(nome="Sprites")
+        matching = Asset.objects.create(
+            nome="Sprite disponível",
+            descricao="",
+            preco=35,
+            categoria=category,
+            ativo=True,
+        )
+        Asset.objects.create(
+            nome="Sprite oculto",
+            descricao="",
+            preco=35,
+            categoria=category,
+            ativo=False,
+        )
+        Asset.objects.create(
+            nome="Asset de outra categoria",
+            descricao="",
+            preco=35,
+            ativo=True,
+        )
+        self.client.force_login(admin)
+
+        response = self.client.get(
+            reverse("servicos"),
+            {
+                "categoria": category.pk,
+                "preco_min": "20",
+                "preco_max": "50",
+                "status": "ativo",
+                "ordem": "nome",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context["servicos"]), [matching])
+        self.assertContains(response, 'type="number"')
+        self.assertContains(response, "Aplicar filtros")
+
+    def test_asset_management_reports_invalid_price_range(self):
+        admin = create_admin_user("admin-assets-faixa-invalida")
+        self.client.force_login(admin)
+
+        response = self.client.get(
+            reverse("servicos"),
+            {"preco_min": "100", "preco_max": "10"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "O preço mínimo não pode ser maior que o preço máximo.")
+        self.assertFalse(response.context["filtros"].is_valid())
+
+    def test_asset_upload_storage_error_renders_form_instead_of_error_page(self):
+        admin = create_admin_user("admin-assets-storage-error")
+        self.client.force_login(admin)
+
+        with patch(
+            "ap.views.FormServico.save",
+            side_effect=StorageApiError("Upload denied", "403", 403),
+        ):
+            response = self.client.post(
+                reverse("addServico"),
+                {"nome": "Asset com erro", "descricao": "", "preco": "10.00"},
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Não foi possível enviar os arquivos ao armazenamento.")
+        self.assertFalse(Asset.objects.filter(nome="Asset com erro").exists())
+
+    def test_asset_edit_storage_error_renders_form_instead_of_error_page(self):
+        admin = create_admin_user("admin-editar-storage-error")
+        asset = Asset.objects.create(nome="Asset existente", descricao="", preco=10)
+        self.client.force_login(admin)
+
+        with patch(
+            "ap.views.FormServico.save",
+            side_effect=StorageApiError("Upload denied", "403", 403),
+        ):
+            response = self.client.post(
+                reverse("editarServico", args=(asset.pk,)),
+                {"nome": "Asset atualizado", "descricao": "", "preco": "12.00"},
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Não foi possível enviar os arquivos ao armazenamento.")
+        asset.refresh_from_db()
+        self.assertEqual(asset.nome, "Asset existente")
 
     def test_client_cannot_open_asset_management(self):
         client_user = User.objects.create_user(
@@ -497,6 +588,60 @@ class AssetScreenTests(TestCase):
         delete_image.assert_not_called()
         self.assertContains(response, "Não pode removê-lo. Um usuário está comprando este item.")
         self.assertTrue(Asset.objects.filter(pk=asset.pk).exists())
+
+    def test_deleting_asset_removes_preview_and_download_files(self):
+        admin = create_admin_user("admin-assets-apagar-arquivos")
+        asset = Asset.objects.create(
+            nome="Asset com arquivos",
+            descricao="",
+            preco=20,
+            imagem="servicos/preview.png",
+            arquivo="assets/download.zip",
+        )
+        self.client.force_login(admin)
+
+        with patch.object(FieldFile, "delete", autospec=True) as delete_file:
+            response = self.client.post(
+                reverse("excluirServico", args=[asset.pk]),
+                follow=True,
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Asset.objects.filter(pk=asset.pk).exists())
+        self.assertEqual(
+            [call.args[0].name for call in delete_file.call_args_list],
+            ["servicos/preview.png", "assets/download.zip"],
+        )
+
+    def test_storage_delete_error_is_reported_and_other_file_is_still_deleted(self):
+        admin = create_admin_user("admin-assets-falha-apagar-arquivo")
+        asset = Asset.objects.create(
+            nome="Asset com falha de armazenamento",
+            descricao="",
+            preco=20,
+            imagem="servicos/preview.png",
+            arquivo="assets/download.zip",
+        )
+        self.client.force_login(admin)
+
+        with patch.object(
+            FieldFile,
+            "delete",
+            autospec=True,
+            side_effect=[StorageApiError("Delete denied", "403", 403), None],
+        ) as delete_file:
+            response = self.client.post(
+                reverse("excluirServico", args=[asset.pk]),
+                follow=True,
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Asset.objects.filter(pk=asset.pk).exists())
+        self.assertEqual(delete_file.call_count, 2)
+        self.assertContains(
+            response,
+            "Asset removido, mas não foi possível apagar a imagem de prévia do armazenamento.",
+        )
 
     @patch("ap.views.requests.get")
     def test_asset_already_in_an_order_cannot_be_added_to_cart_again(self, requests_mock):
