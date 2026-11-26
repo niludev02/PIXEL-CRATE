@@ -1,5 +1,4 @@
-.auth-card,
-.dashboard-card {
+.auth-card {
     background: var(--card);
     border: 1px solid var(--borda);
     border-radius: 20px;
@@ -15,7 +14,7 @@
 }
 
 .auth-heading h2,
-.dashboard-card h2 {
+.dashboard-heading h2 {
     font-family: "Press Start 2P", monospace;
     color: var(--texto);
     font-size: clamp(.85rem, 1.5vw, 1.05rem);
@@ -23,8 +22,7 @@
     margin-bottom: .45rem;
 }
 
-.auth-heading p:not(.auth-kicker),
-.dashboard-description {
+.auth-heading p:not(.auth-kicker) {
     color: var(--texto-suave);
 }
 
@@ -135,10 +133,22 @@
     transform: translateY(-1px);
 }
 
-.dashboard-card {
-    background: radial-gradient(ellipse at top right, rgba(124, 92, 255, .18), transparent 55%), var(--card);
+.dashboard-page {
+    margin: 0 auto;
+    max-width: 1180px;
+    padding: clamp(1.5rem, 4vw, 3rem) 1.25rem;
+}
+
+.dashboard-heading {
+    margin: 0 auto 2rem;
     max-width: 760px;
     text-align: center;
+}
+
+.dashboard-intro {
+    color: var(--texto-suave);
+    margin: 0 auto;
+    max-width: 620px;
 }
 
 .dashboard-icon {
@@ -156,12 +166,58 @@
     width: 76px;
 }
 
-.dashboard-actions {
+.dashboard-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dashboard-tile {
+    background: radial-gradient(ellipse at top right, rgba(124, 92, 255, .14), transparent 60%), var(--card);
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .18);
     display: flex;
-    flex-wrap: wrap;
-    gap: .7rem;
-    justify-content: center;
-    margin-top: 1.75rem;
+    flex-direction: column;
+    gap: .8rem;
+    min-height: 190px;
+    padding: 1.4rem;
+    text-decoration: none;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+
+.dashboard-tile:hover,
+.dashboard-tile:focus-visible {
+    border-color: var(--acao);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .25);
+    transform: translateY(-3px);
+}
+
+.dashboard-tile:focus-visible {
+    outline: 2px solid var(--acao);
+    outline-offset: 3px;
+}
+
+.dashboard-tile-category {
+    color: var(--acao);
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.dashboard-tile h3 {
+    color: var(--texto);
+    font-family: "Press Start 2P", monospace;
+    font-size: .72rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.dashboard-tile p {
+    color: var(--texto-suave);
+    line-height: 1.5;
+    margin: 0;
 }
 
 .auth-button-outline {
@@ -177,13 +233,25 @@
 }
 
 @media (max-width: 560px) {
-    .auth-card,
-    .dashboard-card {
+    .auth-card {
         padding: 1.35rem;
     }
 
-    .dashboard-actions,
-    .dashboard-actions .auth-button {
-        width: 100%;
+    .dashboard-page {
+        padding: 1.5rem 1rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-tile {
+        min-height: 0;
+    }
+}
+
+@media (min-width: 561px) and (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }

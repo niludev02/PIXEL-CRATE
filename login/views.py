@@ -5,17 +5,16 @@ from django.shortcuts import redirect, render
 
 from .forms import CadastroForm
 from .models import Perfil
+from .permissions import is_administrator
 
 
 @login_required
 def dashboard(request):
-    perfil, _ = Perfil.objects.get_or_create(
-        usuario=request.user,
-        defaults={"tipo_usuario": "cliente"},
-    )
-
     if request.user.is_superuser:
         return redirect("admin:index")
+    if not is_administrator(request.user):
+        messages.error(request, "Apenas administradores podem acessar o dashboard.")
+        return redirect("produtos")
 
     return render(request, "dashboard.html")
 

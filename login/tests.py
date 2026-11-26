@@ -122,25 +122,23 @@ class CadastroViewTests(TestCase):
 
 
 class DashboardViewTests(TestCase):
-    def test_dashboard_exibe_pagina_para_cliente(self):
+    def test_dashboard_redireciona_cliente_para_vitrine(self):
         usuario = User.objects.create_user(username="cliente", password="senha-forte")
         Perfil.objects.create(usuario=usuario, tipo_usuario="cliente")
         self.client.force_login(usuario)
 
         response = self.client.get(reverse("dashboard"))
 
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "dashboard.html")
+        self.assertRedirects(response, reverse("produtos"))
 
-    def test_dashboard_cria_perfil_cliente_quando_nao_existe(self):
+    def test_dashboard_nao_cria_perfil_para_usuario_sem_perfil(self):
         usuario = User.objects.create_user(username="sem_perfil", password="senha-forte")
         self.client.force_login(usuario)
 
         response = self.client.get(reverse("dashboard"))
 
-        self.assertEqual(response.status_code, 200)
-        perfil = Perfil.objects.get(usuario=usuario)
-        self.assertEqual(perfil.tipo_usuario, "cliente")
+        self.assertRedirects(response, reverse("produtos"))
+        self.assertFalse(Perfil.objects.filter(usuario=usuario).exists())
 
     def test_dashboard_redireciona_superadmin_para_django_admin(self):
         usuario = User.objects.create_superuser(
@@ -170,26 +168,15 @@ class DashboardViewTests(TestCase):
 
         self.assertEqual(dashboard_response.status_code, 200)
         self.assertContains(dashboard_response, reverse("servicos"))
+        self.assertContains(dashboard_response, 'class="dashboard-grid"')
+        self.assertEqual(dashboard_response.content.count(b'class="dashboard-tile"'), 7)
+        self.assertNotContains(dashboard_response, 'class="auth-button"')
         self.assertFalse(usuario.is_staff)
         self.assertEqual(admin_response.status_code, 302)
         self.assertEqual(
             admin_response.url,
             f"{reverse('admin:login')}?next={reverse('admin:index')}",
         )
-
-    def test_dashboard_cliente_exibe_apenas_perfil_vitrine_e_pedidos(self):
-        usuario = User.objects.create_user(username="cliente-restrito", password="senha-forte")
-        Perfil.objects.create(usuario=usuario, tipo_usuario=Perfil.TIPO_CLIENTE)
-        self.client.force_login(usuario)
-
-        response = self.client.get(reverse("dashboard"))
-
-        self.assertContains(response, reverse("perfil"))
-        self.assertContains(response, reverse("produtos"))
-        self.assertContains(response, reverse("meus_pedidos"))
-        self.assertNotContains(response, reverse("servicos"))
-        self.assertNotContains(response, reverse("contatos"))
-        self.assertNotContains(response, reverse("relatorios"))
 
     def test_visitante_nao_pode_acessar_perfil(self):
         response = self.client.get(reverse("perfil"))

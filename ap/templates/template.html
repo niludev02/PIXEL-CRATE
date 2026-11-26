@@ -44,7 +44,7 @@
                     <a href="{% url 'integrantes' %}">Equipe</a>
                     <a href="{% url 'relatorios' %}">Relatórios</a>
                 {% endif %}
-                {% if not user.is_superuser %}
+                {% if is_pixelcrate_admin and not user.is_superuser %}
                     <a href="{% url 'dashboard' %}">Dashboard</a>
                 {% endif %}
                 <div class="account-actions">

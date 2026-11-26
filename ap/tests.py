@@ -156,7 +156,7 @@ class IntegrantesAccessTests(TestCase):
 
         response = self.client.get(reverse("addIntegrante"))
 
-        self.assertRedirects(response, reverse("dashboard"))
+        self.assertRedirects(response, reverse("produtos"))
         self.assertFalse(response.wsgi_request.user.is_staff)
 
 
@@ -188,7 +188,7 @@ class AssetScreenTests(TestCase):
 
         response = self.client.get(reverse("servicos"))
 
-        self.assertRedirects(response, reverse("dashboard"))
+        self.assertRedirects(response, reverse("produtos"))
 
     def test_client_cannot_mutate_categories_api(self):
         client_user = User.objects.create_user(
@@ -574,7 +574,7 @@ class NavigationMenuTests(TestCase):
         menu_response = self.client.get(reverse("index"))
         self.assertContains(menu_response, ">Quem somos</a>")
         self.assertContains(menu_response, f'href="{reverse("meus_pedidos")}"')
-        self.assertContains(menu_response, f'href="{reverse("dashboard")}"')
+        self.assertNotContains(menu_response, f'href="{reverse("dashboard")}"')
         self.assertContains(menu_response, 'aria-label="Carrinho e meus pedidos"')
         self.assertContains(menu_response, "Editar perfil")
         self.assertContains(menu_response, 'class="logout-button">Sair</button>')
@@ -584,10 +584,7 @@ class NavigationMenuTests(TestCase):
         self.assertNotContains(menu_response, f'href="{reverse("contatos")}"')
 
         dashboard_response = self.client.get(reverse("dashboard"))
-        for route_name in ("produtos", "meus_pedidos", "perfil"):
-            self.assertContains(dashboard_response, f'href="{reverse(route_name)}"')
-        for label in ("Contatos", "Relatórios"):
-            self.assertNotContains(dashboard_response, label)
+        self.assertRedirects(dashboard_response, reverse("produtos"))
 
     def test_admin_menu_exposes_management_pages(self):
         admin = create_admin_user("admin-menu")

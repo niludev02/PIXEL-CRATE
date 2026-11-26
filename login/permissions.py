@@ -25,7 +25,7 @@ def administrator_required(view_func):
             return redirect_to_login(request.get_full_path())
         if not is_administrator(request.user):
             messages.error(request, "Apenas administradores podem acessar esta área.")
-            return redirect("dashboard")
+            return redirect("produtos")
         return view_func(request, *args, **kwargs)
 
     return wrapped_view

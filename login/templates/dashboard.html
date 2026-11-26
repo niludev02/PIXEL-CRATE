@@ -9,29 +9,50 @@
 {% endblock %}
 
 {% block conteudo %}
-<section class="dashboard-card">
-    <div class="dashboard-icon" aria-hidden="true">{{ user.username|first|upper }}</div>
-    <p class="dashboard-kicker">Área restrita</p>
-    <h2>Bem-vindo, {{ user.username }}!</h2>
-    {% if is_pixelcrate_admin %}
-        <p class="dashboard-description">Gerencie a loja e consulte as áreas administrativas.</p>
-    {% else %}
-        <p class="dashboard-description">Acesse seu perfil, a vitrine de produtos ou seus pedidos e seu carrinho.</p>
-    {% endif %}
+<section class="dashboard-page">
+    <header class="dashboard-heading">
+        <div class="dashboard-icon" aria-hidden="true">{{ user.username|first|upper }}</div>
+        <p class="dashboard-kicker">Área restrita</p>
+        <h2>Bem-vindo, {{ user.username }}!</h2>
+        <p class="dashboard-intro">Gerencie a loja e consulte as áreas administrativas.</p>
+    </header>
 
-    <div class="dashboard-actions">
-        <a class="auth-button" href="{% url 'perfil' %}">Editar Perfil</a>
-        {% if is_pixelcrate_admin %}
-            <a class="auth-button" href="{% url 'contatos' %}">Contatos</a>
-            <a class="auth-button" href="{% url 'servicos' %}">Assets</a>
-            <a class="auth-button" href="{% url 'integrantes' %}">Equipe</a>
-            <a class="auth-button" href="{% url 'relatorios' %}">Relatórios</a>
-            <a class="auth-button" href="{% url 'produtos' %}">Vitrine de produtos</a>
-            <a class="auth-button" href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
-        {% else %}
-            <a class="auth-button" href="{% url 'produtos' %}">Vitrine de produtos</a>
-            <a class="auth-button" href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
-        {% endif %}
-    </div>
+    <nav class="dashboard-grid" aria-label="Atalhos administrativos">
+        <a class="dashboard-tile" href="{% url 'perfil' %}">
+            <span class="dashboard-tile-category">Conta</span>
+            <h3>Editar perfil</h3>
+            <p>Atualize suas informações de acesso.</p>
+        </a>
+        <a class="dashboard-tile" href="{% url 'contatos' %}">
+            <span class="dashboard-tile-category">Atendimento</span>
+            <h3>Contatos</h3>
+            <p>Consulte as mensagens enviadas pelos visitantes.</p>
+        </a>
+        <a class="dashboard-tile" href="{% url 'servicos' %}">
+            <span class="dashboard-tile-category">Loja</span>
+            <h3>Assets</h3>
+            <p>Cadastre e gerencie os assets da loja.</p>
+        </a>
+        <a class="dashboard-tile" href="{% url 'integrantes' %}">
+            <span class="dashboard-tile-category">Equipe</span>
+            <h3>Integrantes</h3>
+            <p>Gerencie as informações da equipe.</p>
+        </a>
+        <a class="dashboard-tile" href="{% url 'relatorios' %}">
+            <span class="dashboard-tile-category">Análise</span>
+            <h3>Relatórios</h3>
+            <p>Acompanhe os dados e resultados da loja.</p>
+        </a>
+        <a class="dashboard-tile" href="{% url 'produtos' %}">
+            <span class="dashboard-tile-category">Loja</span>
+            <h3>Vitrine de produtos</h3>
+            <p>Visualize os produtos disponíveis na vitrine.</p>
+        </a>
+        <a class="dashboard-tile" href="{% url 'meus_pedidos' %}">
+            <span class="dashboard-tile-category">Pedidos</span>
+            <h3>Meus pedidos</h3>
+            <p>Consulte pedidos e itens no carrinho.</p>
+        </a>
+    </nav>
 </section>
 {% endblock %}
