@@ -1,14 +1,14 @@
 :root {
-    --bg: #14161B;
-    --card: #1D2026;
-    --borda: #343840;
-    --primaria: #9B87F5;
-    --acao: #A9C987;
-    --preco: #E8BD70;
-    --texto: #F2F0EC;
-    --texto-suave: #A5A6AD;
-    --texto-escuro: #17181C;
-    --surface-hover: #282B32;
+    --bg: #14121F;
+    --card: #1F1B2E;
+    --borda: #3A3454;
+    --primaria: #7C5CFF;
+    --acao: #3DDC97;
+    --preco: #FFC857;
+    --texto: #F2EFFF;
+    --texto-suave: #A9A3C2;
+    --texto-escuro: #171522;
+    --surface-hover: #29243b;
 }
 
 * {
@@ -329,10 +329,10 @@ h2 {
 .screen-title {
     margin: 0 0 .65rem;
     color: var(--texto);
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: 700;
-    letter-spacing: -.04em;
-    line-height: 1.2;
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(.85rem, 1.7vw, 1.1rem);
+    font-weight: 400;
+    line-height: 1.7;
     text-align: center;
 }
 
