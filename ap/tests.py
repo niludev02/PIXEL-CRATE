@@ -564,6 +564,7 @@ class NavigationMenuTests(TestCase):
 
         self.assertContains(response, f'href="{reverse("login")}"')
         self.assertContains(response, f'href="{reverse("cadastrar_usuario")}"')
+        self.assertContains(response, ">Quem somos</a>")
         self.assertNotContains(response, f'href="{reverse("servicos")}"')
 
     def test_client_menu_and_dashboard_only_expose_customer_pages(self):
@@ -571,6 +572,7 @@ class NavigationMenuTests(TestCase):
         self.client.force_login(user)
 
         menu_response = self.client.get(reverse("index"))
+        self.assertContains(menu_response, ">Quem somos</a>")
         self.assertContains(menu_response, f'href="{reverse("meus_pedidos")}"')
         self.assertContains(menu_response, f'href="{reverse("dashboard")}"')
         self.assertContains(menu_response, 'aria-label="Carrinho e meus pedidos"')
@@ -603,4 +605,9 @@ class NavigationMenuTests(TestCase):
             "meus_pedidos",
         ):
             self.assertContains(response, f'href="{reverse(route_name)}"')
+        self.assertNotContains(response, ">Quem somos</a>")
+        self.assertEqual(
+            response.content.count(b">Equipe</a>"),
+            1,
+        )
         self.assertContains(response, 'aria-label="Carrinho e meus pedidos"')
