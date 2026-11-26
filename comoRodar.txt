@@ -30,3 +30,12 @@ python manage.py runserver
 # Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 # - O comando acima deve ser executado dentro da pasta "trabalho01".
 # - Se você estiver na raiz do repositório, primeiro use: cd .\trabalho01
+
+# Para testar a recuperação de senha no Render com o Resend:
+# 1. Crie uma API key no painel do Resend.
+# 2. Adicione estas variáveis no Environment do serviço no Render:
+# EMAIL_BACKEND=login.email_backend.ResendEmailBackend
+# RESEND_API_KEY=sua_chave_do_resend
+# DEFAULT_FROM_EMAIL=onboarding@resend.dev
+# O remetente de teste do Resend só entrega para o e-mail da conta Resend.
+# Para enviar a outros destinatários, verifique um domínio no Resend e use um remetente dele.

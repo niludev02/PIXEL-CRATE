@@ -1,10 +1,73 @@
-from django.contrib.auth.models import User
-from django.core import mail
-from django.test import TestCase, override_settings
-from django.urls import reverse
+from unittest.mock import patch
 from urllib.parse import urlsplit
 
+import requests
+from django.contrib.auth.models import User
+from django.core import mail
+from django.core.exceptions import ImproperlyConfigured
+from django.core.mail import EmailMessage
+from django.test import SimpleTestCase, TestCase, override_settings
+from django.urls import reverse
+
+from .email_backend import ResendEmailBackend
 from .models import Perfil
+
+
+class ResendEmailBackendTests(SimpleTestCase):
+    @override_settings(
+        RESEND_API_KEY="test-resend-key",
+        DEFAULT_FROM_EMAIL="onboarding@resend.dev",
+    )
+    @patch("login.email_backend.requests.post")
+    def test_sends_email_via_resend_api(self, post):
+        message = EmailMessage(
+            subject="Redefinição de senha",
+            body="Use este link para redefinir sua senha.",
+            to=["recipient@example.com"],
+            from_email="onboarding@resend.dev",
+        )
+
+        sent_count = ResendEmailBackend().send_messages([message])
+
+        self.assertEqual(sent_count, 1)
+        post.assert_called_once_with(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": "Bearer test-resend-key",
+                "Content-Type": "application/json",
+            },
+            json={
+                "from": "onboarding@resend.dev",
+                "to": ["recipient@example.com"],
+                "subject": "Redefinição de senha",
+                "text": "Use este link para redefinir sua senha.",
+            },
+            timeout=10,
+        )
+
+    @override_settings(RESEND_API_KEY="")
+    def test_requires_api_key(self):
+        with self.assertRaises(ImproperlyConfigured):
+            ResendEmailBackend().send_messages([
+                EmailMessage(subject="Teste", body="Texto", to=["cliente@example.com"])
+            ])
+
+    @override_settings(RESEND_API_KEY="test-resend-key")
+    @patch("login.email_backend.requests.post")
+    def test_surfaces_resend_api_errors(self, post):
+        post.return_value.raise_for_status.side_effect = requests.HTTPError(
+            "Resend rejected the request."
+        )
+
+        with self.assertRaises(requests.HTTPError):
+            ResendEmailBackend().send_messages([
+                EmailMessage(
+                    subject="Teste",
+                    body="Texto",
+                    to=["cliente@example.com"],
+                    from_email="onboarding@resend.dev",
+                )
+            ])
 
 
 class CadastroViewTests(TestCase):
