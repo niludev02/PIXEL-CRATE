@@ -12,16 +12,19 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    box-sizing: border-box;
+    padding: 0 1rem;
 }
 
 .servico-form {
     width: 100%;
     max-width: 520px;
+    box-sizing: border-box;
     background: var(--card);
     border: 1px solid var(--borda);
     border-radius: 8px;
     padding: 2rem;
-    box-shadow: 0 12px 28px rgba(18, 59, 47, .08);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .22);
 }
 
 .campo {
@@ -56,7 +59,7 @@
     accent-color: var(--primaria);
 }
 
-.campo input,
+.campo input:not([type="checkbox"]):not([type="file"]),
 .campo textarea,
 .campo select {
     width: 100%;
@@ -71,7 +74,7 @@
     transition: border-color .2s, box-shadow .2s;
 }
 
-.campo input:focus,
+.campo input:not([type="checkbox"]):not([type="file"]):focus,
 .campo textarea:focus,
 .campo select:focus {
     border-color: var(--acao);
@@ -82,6 +85,61 @@
 .campo textarea {
     min-height: 120px;
     resize: vertical;
+}
+
+.campo input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: .55rem;
+    border: 1px dashed var(--borda);
+    border-radius: 8px;
+    background: var(--texto-escuro);
+    color: var(--texto-suave);
+    font: inherit;
+    font-size: .82rem;
+}
+
+.campo input[type="file"]::file-selector-button {
+    margin-right: .65rem;
+    padding: .45rem .7rem;
+    border: 0;
+    border-radius: 6px;
+    background: var(--primaria);
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.campo input[type="file"]::file-selector-button:hover {
+    background: #6948ef;
+}
+
+.campo input[type="checkbox"] {
+    align-self: flex-start;
+    width: 16px;
+    height: 16px;
+    margin: .3rem 0 0;
+    padding: 0;
+    accent-color: var(--primaria);
+}
+
+.campo label[for$="clear_id"] {
+    align-self: flex-start;
+    margin: -1.35rem 0 .4rem 1.45rem;
+    color: var(--texto-suave);
+    font-size: .82rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.campo > a {
+    display: inline-block;
+    max-width: 100%;
+    margin: .15rem 0 .35rem;
+    color: #bba8ff;
+    font-size: .82rem;
+    overflow-wrap: anywhere;
 }
 
 .servico-form button {
@@ -120,7 +178,8 @@
 
 @media (max-width: 560px) {
     .servico-form {
-        max-width: 90%;
+        max-width: 520px;
+        padding: 1.35rem;
     }
 
     .form-titulo {
