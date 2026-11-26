@@ -1,99 +1,241 @@
+.contatos-page {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.contatos-cabecalho {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.25rem;
+    margin: 0 auto 1.5rem;
+}
+
+.contatos-etiqueta {
+    margin: 0 0 .45rem;
+    color: var(--acao);
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
 .contatos-titulo {
-    font-family: "Press Start 2P", monospace;
-    text-align: center;
-    font-size: clamp(.85rem, 1.5vw, 1.05rem);
-    font-weight: 700;
-    line-height: 1.8;
-    margin: 15px 0 26px;
+    margin: 0 0 .55rem;
     color: var(--texto);
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+.contatos-descricao {
+    margin: 0;
+    color: var(--texto-suave);
+    font-size: .92rem;
+    line-height: 1.6;
+}
+
+.contatos-total {
+    flex: none;
+    padding: .45rem .75rem;
+    border: 1px solid var(--borda);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--texto-suave);
+    font-size: .8rem;
+    font-weight: 700;
 }
 
 .tabela-contatos {
-    max-width: 980px;
-    margin: 0 auto;
+    overflow: auto;
     border: 1px solid var(--borda);
-    border-radius: 16px;
-    overflow: hidden;
+    border-radius: 14px;
     background: var(--card);
     box-shadow: 0 12px 28px rgba(0, 0, 0, .2);
+    scrollbar-color: var(--primaria) var(--surface-hover);
+    scrollbar-width: thin;
+}
+
+.tabela-contatos:focus-visible {
+    outline: 2px solid var(--primaria);
+    outline-offset: 3px;
 }
 
 .tabela-contatos table {
     width: 100%;
+    min-width: 820px;
     border-collapse: collapse;
     table-layout: fixed;
+    text-align: left;
 }
 
 .tabela-contatos th,
 .tabela-contatos td {
+    padding: .9rem 1rem;
     border-bottom: 1px solid var(--borda);
-    border-right: 0;
-    border-left: 0;
-    border-top: 0;
-    padding: 14px 12px;
+    color: var(--texto);
+    font-size: .88rem;
+    line-height: 1.55;
     text-align: left;
     vertical-align: top;
-    font-size: 1rem;
-    color: var(--texto);
-    word-wrap: break-word;
 }
 
-.tabela-contatos thead th {
+.tabela-contatos th {
+    position: sticky;
+    top: 0;
     background: var(--surface-hover);
-    color: var(--texto);
+    color: var(--texto-suave);
+    font-size: .75rem;
     font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.tabela-contatos th:nth-child(1) {
+    width: 15%;
+}
+
+.tabela-contatos th:nth-child(2) {
+    width: 22%;
+}
+
+.tabela-contatos th:nth-child(3) {
+    width: 19%;
+}
+
+.tabela-contatos th:nth-child(4) {
+    width: 32%;
+}
+
+.tabela-contatos th:nth-child(5) {
+    width: 12%;
+}
+
+.tabela-contatos tbody tr {
+    transition: background-color .18s ease;
+}
+
+.tabela-contatos tbody tr:nth-child(even) {
+    background: rgba(41, 36, 59, .42);
+}
+
+.tabela-contatos tbody tr:hover {
+    background: rgba(124, 92, 255, .1);
+}
+
+.tabela-contatos tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.contato-nome {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.contato-email,
+.contato-telefone {
+    color: var(--texto);
+    overflow-wrap: anywhere;
+    text-decoration-color: rgba(124, 92, 255, .65);
+    text-underline-offset: 3px;
+}
+
+.contato-email:hover,
+.contato-telefone:hover {
+    color: var(--primaria);
+}
+
+.contato-sem-dado {
+    color: var(--texto-suave);
+    font-style: italic;
+}
+
+.contato-mensagem {
+    min-width: 240px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.tabela-contatos form {
+    margin: 0;
+}
+
+.tabela-contatos .btn-excluir {
+    min-height: 36px;
+    padding: .45rem .8rem;
+    border: 1px solid rgba(255, 100, 119, .35);
+    border-radius: 7px;
+    background: rgba(255, 100, 119, .12);
+    color: #ff9aa5;
+    cursor: pointer;
+    font: inherit;
+    font-size: .8rem;
+    font-weight: 700;
+    transition: background-color .18s ease, border-color .18s ease;
+}
+
+.tabela-contatos .btn-excluir:hover,
+.tabela-contatos .btn-excluir:focus-visible {
+    border-color: #ff6477;
+    background: rgba(255, 100, 119, .2);
+}
+
+.contatos-vazio {
+    display: grid;
+    min-height: 150px;
+    align-content: center;
+    justify-items: center;
+    gap: .4rem;
+    color: var(--texto-suave);
     text-align: center;
 }
 
-.tabela-contatos tbody td {
-    background: var(--card);
+.contatos-vazio strong {
+    color: var(--texto);
+    font-size: .95rem;
 }
 
-.tabela-contatos tbody tr:nth-child(even) td {
-    background: #252039;
+.contatos-vazio span {
+    font-size: .82rem;
 }
 
-.tabela-contatos tbody tr:hover td {
-    background: rgba(124, 92, 255, .12);
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
 }
 
-/* Botões de ação — padrão consistente com servicos.css */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 82px;
-    height: 34px;
-    padding: 0 14px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-align: center;
-    color: #fff;
-    transition: opacity 0.2s ease;
-}
-
-.btn:hover {
-    opacity: 0.9;
-}
-
-.btn-excluir {
-    background: #c64d4d;
-}
-
-@media (max-width: 900px) {
-    .tabela-contatos {
-        overflow-x: auto;
+@media (max-width: 700px) {
+    .contatos-cabecalho {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: .75rem;
+        margin-bottom: 1.1rem;
     }
 
-    @media (max-width: 560px) {
-        .contatos-titulo {
-            font-size: .8rem;
-        }
+    .contatos-titulo {
+        font-size: 1rem;
+    }
+
+    .contatos-descricao {
+        font-size: .85rem;
+    }
+
+    .tabela-contatos {
+        border-radius: 10px;
     }
 
     .tabela-contatos table {
-        min-width: 700px;
+        min-width: 760px;
+    }
+
+    .tabela-contatos th,
+    .tabela-contatos td {
+        padding: .75rem .8rem;
     }
 }

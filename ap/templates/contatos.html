@@ -9,26 +9,41 @@
 {% endblock %}
 
 {% block conteudo %}
-    <h2 class="contatos-titulo">Nossos Contatos</h2>
+<section class="contatos-page">
+    <header class="contatos-cabecalho">
+        <div>
+            <p class="contatos-etiqueta">Painel administrativo</p>
+            <h2 class="contatos-titulo">Mensagens recebidas</h2>
+            <p class="contatos-descricao">Consulte e gerencie as mensagens enviadas pelo formulário de contato.</p>
+        </div>
+        <span class="contatos-total">{{ contatos|length }} contato{{ contatos|length|pluralize:"s" }}</span>
+    </header>
 
-    <div class="tabela-contatos">
+    <div class="tabela-contatos" role="region" aria-label="Tabela de mensagens recebidas" tabindex="0">
         <table>
+            <caption class="visually-hidden">Mensagens recebidas pelo site Pixel Crate</caption>
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>Telefone</th>
-                    <th>Mensagem</th>
-                    <th>Ação</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Mensagem</th>
+                    <th scope="col">Ação</th>
                 </tr>
             </thead>
             <tbody>
                 {% for contato in contatos %}
                     <tr>
-                        <td>{{ contato.nome }}</td>
-                        <td>{{ contato.email }}</td>
-                        <td>{{ contato.telefone }}</td>
-                        <td>{{ contato.mensagem }}</td>
+                        <td class="contato-nome">{{ contato.nome }}</td>
+                        <td><a class="contato-email" href="mailto:{{ contato.email }}">{{ contato.email }}</a></td>
+                        <td>
+                            {% if contato.telefone %}
+                                <a class="contato-telefone" href="tel:{{ contato.telefone|urlencode }}">{{ contato.telefone }}</a>
+                            {% else %}
+                                <span class="contato-sem-dado">Não informado</span>
+                            {% endif %}
+                        </td>
+                        <td class="contato-mensagem">{{ contato.mensagem }}</td>
                         <td>
                             <form method="post" action="{% url 'excluirContato' contato.id %}" onsubmit="return confirm('Deseja realmente excluir este contato?')">
                                 {% csrf_token %}
@@ -36,8 +51,18 @@
                             </form>
                         </td>
                     </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">
+                            <div class="contatos-vazio">
+                                <strong>Nenhuma mensagem por enquanto</strong>
+                                <span>As mensagens enviadas pelo formulário aparecerão aqui.</span>
+                            </div>
+                        </td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+</section>
 {% endblock %}

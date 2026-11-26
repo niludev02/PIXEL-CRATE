@@ -26,10 +26,8 @@
 .home-title {
     margin-bottom: 1.25rem;
     color: var(--texto);
-    font-size: clamp(2.4rem, 5.3vw, 4.5rem);
-    font-weight: 800;
-    letter-spacing: -.045em;
-    line-height: 1.06;
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    line-height: 1.8;
 }
 
 .home-title span {
@@ -126,7 +124,7 @@
 }
 
 .home-preview:hover {
-    border-color: rgba(155, 135, 245, .55);
+    border-color: rgba(124, 92, 255, .65);
     box-shadow: 0 16px 34px rgba(0, 0, 0, .24);
 }
 
@@ -141,7 +139,7 @@
 
 .preview-topbar {
     color: var(--texto-suave);
-    font-family: "Press Start 2P", monospace;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
     font-size: .48rem;
 }
 
@@ -290,10 +288,8 @@
 .home-section-heading h2,
 .home-cta h2 {
     color: var(--texto);
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: 700;
-    letter-spacing: -.04em;
-    line-height: 1.2;
+    font-size: clamp(.85rem, 1.6vw, 1.1rem);
+    line-height: 1.9;
 }
 
 .feature-grid {
@@ -312,7 +308,7 @@
 }
 
 .feature-card:hover {
-    border-color: rgba(155, 135, 245, .55);
+    border-color: rgba(124, 92, 255, .65);
     box-shadow: 0 12px 24px rgba(0, 0, 0, .18);
 }
 
@@ -346,7 +342,7 @@
 }
 
 .feature-icon-ui {
-    font-family: "Press Start 2P", monospace;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
     font-size: .55rem;
 }
 
@@ -419,10 +415,6 @@
 }
 
 @media (max-width: 480px) {
-    .home-title {
-        font-size: clamp(2.1rem, 11vw, 3rem);
-    }
-
     .home-actions {
         align-items: stretch;
         flex-direction: column;
@@ -436,10 +428,6 @@
         min-height: 220px;
     }
 
-    .home-section-heading h2,
-    .home-cta h2 {
-        font-size: 1.4rem;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {

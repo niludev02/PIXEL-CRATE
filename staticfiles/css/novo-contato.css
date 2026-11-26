@@ -1,7 +1,7 @@
 .form-titulo {
     font-family: "Press Start 2P", monospace;
     text-align: center;
-    font-size: clamp(.85rem, 1.5vw, 1.05rem);
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
     font-weight: 700;
     line-height: 1.8;
     margin: 20px 0 24px;
@@ -99,6 +99,6 @@
     }
 
     .form-titulo {
-        font-size: .8rem;
+        font-size: .9rem;
     }
 }

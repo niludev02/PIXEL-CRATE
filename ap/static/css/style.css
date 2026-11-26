@@ -166,7 +166,7 @@ h1 {
 .site-nav a:hover,
 .site-nav a:focus {
     border-color: rgba(124, 92, 255, .3);
-    background: rgba(155, 135, 245, .1);
+    background: rgba(124, 92, 255, .1);
     color: var(--texto);
 }
 
@@ -324,13 +324,15 @@ main {
 
 h2 {
     color: var(--texto);
+    font-family: "Press Start 2P", monospace;
+    font-weight: 400;
 }
 
 .screen-title {
     margin: 0 0 .65rem;
     color: var(--texto);
     font-family: "Press Start 2P", monospace;
-    font-size: clamp(.85rem, 1.7vw, 1.1rem);
+    font-size: clamp(1rem, 2vw, 1.35rem);
     font-weight: 400;
     line-height: 1.7;
     text-align: center;
@@ -410,7 +412,7 @@ button:hover,
 .produto-card:hover,
 .integrante-card:hover,
 .pedido-card:hover {
-    border-color: rgba(155, 135, 245, .65);
+    border-color: rgba(124, 92, 255, .75);
     box-shadow: 0 12px 24px rgba(0, 0, 0, .2);
     transform: translateY(-2px);
 }

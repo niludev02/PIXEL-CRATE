@@ -1,0 +1,243 @@
+.pedidos-page {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.pedidos-page .screen-title {
+    margin-bottom: .35rem;
+}
+
+.pedidos-section-title {
+    margin: 1.5rem 0 .75rem;
+    font-family: "Press Start 2P", monospace;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+.carrinho-section {
+    margin-bottom: 1.75rem;
+}
+
+.pedido-card {
+    margin: 1.25rem 0;
+    overflow: hidden;
+}
+
+.carrinho-card {
+    margin-top: 0;
+}
+
+.pedido-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .8rem 1rem;
+    border-bottom: 1px solid var(--borda);
+}
+
+.pedido-identificacao {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: .75rem;
+}
+
+.pedido-identificacao h3 {
+    font-size: .95rem;
+}
+
+.pedido-identificacao time {
+    color: var(--texto-suave);
+    font-size: .78rem;
+}
+
+.status-pill {
+    flex: none;
+    padding: .15rem .65rem;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    font-size: .75rem;
+}
+
+.status-pago {
+    color: var(--acao);
+}
+
+.status-pendente {
+    color: var(--texto-suave);
+}
+
+.pedido-itens {
+    padding: 0 1rem;
+}
+
+.pedido-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    min-height: 60px;
+    padding: .65rem 0;
+    border-bottom: 1px solid var(--borda);
+}
+
+.pedido-item img,
+.pedido-item-placeholder {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    background: var(--bg);
+    object-fit: cover;
+}
+
+.pedido-item-info {
+    display: grid;
+    flex: 1;
+    gap: .15rem;
+    min-width: 0;
+}
+
+.pedido-item-info strong {
+    font-size: .85rem;
+}
+
+.pedido-item-info span {
+    color: var(--texto-suave);
+    font-size: .75rem;
+}
+
+.pedido-item-preco,
+.pedido-footer strong {
+    color: var(--preco);
+    font-size: .85rem;
+}
+
+.pedido-download {
+    padding: .35rem .7rem;
+    border-radius: 4px;
+    background: var(--primaria);
+    color: #fff;
+    font-size: .75rem;
+    text-decoration: none;
+}
+
+.pedido-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .75rem;
+    padding: .7rem 1rem;
+}
+
+.pedido-footer p {
+    margin: 0;
+    color: var(--texto-suave);
+    font-size: .82rem;
+}
+
+.pedido-footer strong {
+    margin-left: .4rem;
+}
+
+.pedido-remover-form {
+    margin: 0;
+}
+
+.pedido-remover-button {
+    padding: .35rem .7rem;
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--texto-suave);
+    font-size: .75rem;
+}
+
+.pedido-remover-button:hover {
+    background: var(--surface-hover);
+    color: var(--texto);
+}
+
+.carrinho-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+.carrinho-item .pedido-item-info {
+    flex: initial;
+}
+
+.carrinho-item .pedido-remover-form,
+.carrinho-footer form {
+    margin: 0;
+}
+
+.carrinho-footer {
+    border-top: 1px solid var(--borda);
+}
+
+.carrinho-checkout-button {
+    padding: .5rem .85rem;
+    border: 0;
+    border-radius: 4px;
+    background: var(--acao);
+    color: var(--bg);
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.carrinho-checkout-button:hover {
+    filter: brightness(.94);
+}
+
+.carrinho-empty {
+    margin-top: .75rem;
+}
+
+.pedidos-empty {
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 560px) {
+    .pedido-header,
+    .pedido-item {
+        align-items: flex-start;
+    }
+
+    .pedido-item {
+        flex-wrap: wrap;
+    }
+
+    .pedido-item-info {
+        flex-basis: calc(100% - 60px);
+    }
+
+    .pedido-item-preco {
+        margin-left: 52px;
+    }
+
+    .carrinho-item {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .carrinho-item .pedido-item-info {
+        flex-basis: auto;
+    }
+
+    .carrinho-item .pedido-item-preco {
+        margin-left: 0;
+    }
+
+    .carrinho-item .pedido-remover-form {
+        grid-column: 2;
+        justify-self: end;
+    }
+
+    .pedido-download {
+        margin-left: auto;
+    }
+}

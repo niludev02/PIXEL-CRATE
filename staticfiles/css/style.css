@@ -1,14 +1,14 @@
 :root {
-    --bg: #14161B;
-    --card: #1D2026;
-    --borda: #343840;
-    --primaria: #9B87F5;
-    --acao: #A9C987;
-    --preco: #E8BD70;
-    --texto: #F2F0EC;
-    --texto-suave: #A5A6AD;
-    --texto-escuro: #17181C;
-    --surface-hover: #282B32;
+    --bg: #14121F;
+    --card: #1F1B2E;
+    --borda: #3A3454;
+    --primaria: #7C5CFF;
+    --acao: #3DDC97;
+    --preco: #FFC857;
+    --texto: #F2EFFF;
+    --texto-suave: #A9A3C2;
+    --texto-escuro: #171522;
+    --surface-hover: #29243b;
 }
 
 * {
@@ -166,7 +166,7 @@ h1 {
 .site-nav a:hover,
 .site-nav a:focus {
     border-color: rgba(124, 92, 255, .3);
-    background: rgba(155, 135, 245, .1);
+    background: rgba(124, 92, 255, .1);
     color: var(--texto);
 }
 
@@ -324,15 +324,17 @@ main {
 
 h2 {
     color: var(--texto);
+    font-family: "Press Start 2P", monospace;
+    font-weight: 400;
 }
 
 .screen-title {
     margin: 0 0 .65rem;
     color: var(--texto);
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: 700;
-    letter-spacing: -.04em;
-    line-height: 1.2;
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-weight: 400;
+    line-height: 1.7;
     text-align: center;
 }
 
@@ -410,7 +412,7 @@ button:hover,
 .produto-card:hover,
 .integrante-card:hover,
 .pedido-card:hover {
-    border-color: rgba(155, 135, 245, .65);
+    border-color: rgba(124, 92, 255, .75);
     box-shadow: 0 12px 24px rgba(0, 0, 0, .2);
     transform: translateY(-2px);
 }

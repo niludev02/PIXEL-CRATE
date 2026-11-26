@@ -14,10 +14,8 @@
 
 .integrantes-titulo {
     color: var(--texto);
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 750;
-    letter-spacing: -.05em;
-    line-height: 1.1;
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
+    line-height: 1.9;
     margin-bottom: .85rem;
 }
 
@@ -63,7 +61,7 @@
 }
 
 .integrante-card:hover {
-    border-color: rgba(155, 135, 245, .65);
+    border-color: rgba(124, 92, 255, .75);
     box-shadow: 0 12px 24px rgba(0, 0, 0, .2);
 }
 
@@ -149,13 +147,13 @@
 
 .btn-editar {
     flex: 1;
-    background: rgba(155, 135, 245, .1);
+    background: rgba(124, 92, 255, .1);
     color: var(--texto);
 }
 
 .btn-editar:hover {
     border-color: var(--primaria);
-    background: rgba(155, 135, 245, .18);
+    background: rgba(124, 92, 255, .18);
 }
 
 .btn-excluir {
@@ -238,7 +236,7 @@
     }
 
     .integrantes-titulo {
-        font-size: 2rem;
+        font-size: 1rem;
     }
 }
 

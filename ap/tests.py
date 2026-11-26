@@ -12,7 +12,7 @@ from requests import RequestException
 from login.models import Perfil
 
 from .forms import FormServico
-from .models import Asset, Categoria, ItemPedido, Pedido
+from .models import Asset, Categoria, Contato, ItemPedido, Pedido
 from .storage import SupabasePrivateDownloadStorage, SupabasePublicMediaStorage
 
 
@@ -714,6 +714,46 @@ class AssetScreenTests(TestCase):
         self.assertEqual(response.status_code, 404)
         pedido.refresh_from_db()
         self.assertFalse(pedido.oculto)
+
+
+class ContactsScreenTests(TestCase):
+    def setUp(self):
+        self.admin = create_admin_user("admin-contatos")
+        self.client.force_login(self.admin)
+
+    def test_contacts_table_links_email_and_phone_and_shows_message(self):
+        Contato.objects.create(
+            nome="Cliente exemplo",
+            email="cliente@example.com",
+            telefone="+55 (11) 99999-1234",
+            mensagem="Preciso de mais informações.",
+        )
+
+        response = self.client.get(reverse("contatos"))
+
+        self.assertContains(response, "Mensagens recebidas")
+        self.assertContains(response, "role=\"region\"")
+        self.assertContains(response, 'href="mailto:cliente@example.com"')
+        self.assertContains(response, 'href="tel:%2B55%20%2811%29%2099999-1234"')
+        self.assertContains(response, "Preciso de mais informações.")
+
+    def test_contacts_table_shows_empty_state_and_missing_phone(self):
+        Contato.objects.create(
+            nome="Cliente sem telefone",
+            email="sem-telefone@example.com",
+            telefone="",
+            mensagem="Olá.",
+        )
+
+        response = self.client.get(reverse("contatos"))
+
+        self.assertContains(response, "Não informado")
+        self.assertNotContains(response, "Nenhuma mensagem por enquanto")
+
+    def test_contacts_table_empty_state_appears_when_there_are_no_contacts(self):
+        response = self.client.get(reverse("contatos"))
+
+        self.assertContains(response, "Nenhuma mensagem por enquanto")
 
 
 class NavigationMenuTests(TestCase):
