@@ -65,3 +65,21 @@ class SupabasePublicMediaStorage(Storage):
 
     def url(self, name):
         return self.bucket.get_public_url(name)
+
+
+@deconstructible
+class SupabasePrivateDownloadStorage(SupabasePublicMediaStorage):
+    def __init__(self, bucket_name=None, signed_url_lifetime=300):
+        super().__init__(bucket_name or settings.SUPABASE_DOWNLOADS_BUCKET)
+        self.signed_url_lifetime = signed_url_lifetime
+
+    def url(self, name):
+        response = self.bucket.create_signed_url(
+            name,
+            self.signed_url_lifetime,
+            {"download": True},
+        )
+        signed_url = response.get("signedURL")
+        if not signed_url:
+            raise OSError("Supabase did not return a signed download URL.")
+        return signed_url

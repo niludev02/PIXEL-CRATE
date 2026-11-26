@@ -375,6 +375,29 @@ def meus_pedidos(request):
 
 
 @login_required
+def baixar_asset(request, item_id):
+    item = get_object_or_404(
+        ItemPedido.objects.select_related("asset", "pedido"),
+        id=item_id,
+        pedido__usuario=request.user,
+        pedido__status=Pedido.STATUS_PAGO,
+    )
+    arquivo = item.asset.arquivo
+    if not arquivo:
+        messages.error(request, "O arquivo deste asset não está disponível.")
+        return redirect("meus_pedidos")
+
+    if not arquivo.storage.exists(arquivo.name):
+        messages.error(
+            request,
+            "O arquivo deste asset não foi enviado ao armazenamento. Avise o administrador.",
+        )
+        return redirect("meus_pedidos")
+
+    return redirect(arquivo.url)
+
+
+@login_required
 @require_POST
 def remover_pedido(request, id):
     pedido = get_object_or_404(

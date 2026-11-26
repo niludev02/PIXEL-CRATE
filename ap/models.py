@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from .storage import SupabasePublicMediaStorage
+from .storage import SupabasePrivateDownloadStorage, SupabasePublicMediaStorage
 
 # Create your models here.
 
@@ -23,7 +23,13 @@ class Asset(models.Model):
         blank=True,
         null=True,
     )
-    arquivo = models.FileField("Arquivo para download", upload_to='assets/', blank=True, null=True)
+    arquivo = models.FileField(
+        "Arquivo para download",
+        upload_to="assets/",
+        storage=SupabasePrivateDownloadStorage(),
+        blank=True,
+        null=True,
+    )
     ativo = models.BooleanField("Ativo (aparece na vitrine)", default=True)
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)

@@ -1,3 +1,4 @@
+import mimetypes
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -12,7 +13,7 @@ from login.models import Perfil
 
 from .forms import FormServico
 from .models import Asset, Categoria, ItemPedido, Pedido
-from .storage import SupabasePublicMediaStorage
+from .storage import SupabasePrivateDownloadStorage, SupabasePublicMediaStorage
 
 
 def create_admin_user(username, password="senha-segura"):
@@ -55,6 +56,136 @@ class SupabasePreviewStorageTests(TestCase):
 
         self.assertEqual(url, "https://storage.example/preview.png")
         bucket.get_public_url.assert_called_once_with("servicos/preview.png")
+
+
+class SupabaseDownloadStorageTests(TestCase):
+    @patch("ap.storage.supabase")
+    def test_saves_download_to_private_bucket(self, supabase_mock):
+        bucket = supabase_mock.storage.from_.return_value
+        storage = SupabasePrivateDownloadStorage(bucket_name="pixelcrate-downloads")
+
+        saved_name = storage.save(
+            "assets/character.zip",
+            ContentFile(b"zip-bytes"),
+        )
+
+        uploaded_name, uploaded_content = bucket.upload.call_args.args
+        self.assertRegex(uploaded_name, r"^assets/[0-9a-f]{32}\.zip$")
+        self.assertEqual(uploaded_name, saved_name)
+        self.assertEqual(uploaded_content, b"zip-bytes")
+        self.assertEqual(
+            bucket.upload.call_args.kwargs["file_options"],
+            {
+                "content-type": mimetypes.guess_type("character.zip")[0],
+                "upsert": "false",
+            },
+        )
+        supabase_mock.storage.from_.assert_called_once_with("pixelcrate-downloads")
+
+    @patch("ap.storage.supabase")
+    def test_download_url_is_signed_and_forces_file_download(self, supabase_mock):
+        bucket = supabase_mock.storage.from_.return_value
+        bucket.create_signed_url.return_value = {
+            "signedURL": "https://storage.example/download?token=test"
+        }
+        storage = SupabasePrivateDownloadStorage(bucket_name="pixelcrate-downloads")
+
+        url = storage.url("assets/character.zip")
+
+        self.assertEqual(url, "https://storage.example/download?token=test")
+        bucket.create_signed_url.assert_called_once_with(
+            "assets/character.zip",
+            300,
+            {"download": True},
+        )
+
+
+class AssetDownloadAccessTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="comprador", password="senha-segura")
+        self.asset = Asset.objects.create(
+            nome="Template",
+            descricao="",
+            preco=10,
+            arquivo="assets/character.zip",
+        )
+        self.pedido = Pedido.objects.create(
+            usuario=self.user,
+            status=Pedido.STATUS_PAGO,
+        )
+        self.item = ItemPedido.objects.create(
+            pedido=self.pedido,
+            asset=self.asset,
+            preco_unitario=self.asset.preco,
+        )
+
+    @patch("ap.storage.supabase")
+    def test_buyer_with_paid_order_redirects_to_signed_download(self, supabase_mock):
+        bucket = supabase_mock.storage.from_.return_value
+        bucket.list.return_value = [{"name": "character.zip"}]
+        bucket.create_signed_url.return_value = {
+            "signedURL": "https://storage.example/download?token=test"
+        }
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("baixar_asset", args=[self.item.pk]))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            response["Location"],
+            "https://storage.example/download?token=test",
+        )
+
+    @patch("ap.storage.supabase")
+    def test_missing_file_returns_to_orders_with_a_message(self, supabase_mock):
+        bucket = supabase_mock.storage.from_.return_value
+        bucket.list.return_value = []
+        self.client.force_login(self.user)
+
+        response = self.client.get(
+            reverse("baixar_asset", args=[self.item.pk]),
+            follow=True,
+        )
+
+        self.assertContains(response, "não foi enviado ao armazenamento")
+        bucket.create_signed_url.assert_not_called()
+
+    def test_another_user_cannot_download_the_order_file(self):
+        other_user = User.objects.create_user(
+            username="outro-comprador",
+            password="senha-segura",
+        )
+        self.client.force_login(other_user)
+
+        response = self.client.get(reverse("baixar_asset", args=[self.item.pk]))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_paid_order_links_to_protected_download_route(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("meus_pedidos"))
+
+        self.assertContains(
+            response,
+            f'href="{reverse("baixar_asset", args=[self.item.pk])}"',
+        )
+
+    def test_pending_order_cannot_download_the_file(self):
+        pending_order = Pedido.objects.create(
+            usuario=self.user,
+            status=Pedido.STATUS_PENDENTE,
+        )
+        pending_item = ItemPedido.objects.create(
+            pedido=pending_order,
+            asset=self.asset,
+            preco_unitario=self.asset.preco,
+        )
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("baixar_asset", args=[pending_item.pk]))
+
+        self.assertEqual(response.status_code, 404)
 
 
 class IntegrantesAccessTests(TestCase):

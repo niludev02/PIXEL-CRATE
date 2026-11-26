@@ -165,6 +165,10 @@ STORAGES = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 SUPABASE_STORAGE_BUCKET = os.getenv("SUPABASE_STORAGE_BUCKET", "pixelcrate-previews")
+SUPABASE_DOWNLOADS_BUCKET = os.getenv(
+    "SUPABASE_DOWNLOADS_BUCKET",
+    "pixelcrate-downloads",
+)
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration

@@ -15,6 +15,7 @@ urlpatterns = [
     path("carrinho/remover/<int:id>/", views.remover_item_carrinho, name="remover_item_carrinho"),
     path("carrinho/comprar/", views.comprar_carrinho, name="comprar_carrinho"),
     path("meus-pedidos/", views.meus_pedidos, name="meus_pedidos"),
+    path("pedidos/item/<int:item_id>/download/", views.baixar_asset, name="baixar_asset"),
     path("remover-pedido/<int:id>/", views.remover_pedido, name="remover_pedido"),
     path("integrantes",views.integrantes, name="integrantes"),
     path("add-integrante", views.addIntegrante, name="addIntegrante"),

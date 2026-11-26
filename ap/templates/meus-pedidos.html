@@ -91,8 +91,8 @@
                     <span>{{ item.asset.categoria|default:"Asset" }}</span>
                 </div>
                 <strong class="pedido-item-preco">R$ {{ item.preco_unitario|floatformat:2 }}</strong>
-                {% if item.asset.arquivo %}
-                    <a class="pedido-download" href="{{ item.asset.arquivo.url }}" download>Baixar arquivo</a>
+                {% if pedido.status == "pago" and item.asset.arquivo %}
+                    <a class="pedido-download" href="{% url 'baixar_asset' item.id %}">Baixar arquivo</a>
                 {% endif %}
             </div>
             {% endfor %}

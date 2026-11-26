@@ -39,3 +39,9 @@ python manage.py runserver
 # DEFAULT_FROM_EMAIL=onboarding@resend.dev
 # O remetente de teste do Resend só entrega para o e-mail da conta Resend.
 # Para enviar a outros destinatários, verifique um domínio no Resend e use um remetente dele.
+
+# Para os arquivos ZIP de produtos:
+# Crie no Supabase Storage o bucket privado pixelcrate-downloads.
+# O nome padrão já é usado pelo projeto; se mudar, configure
+# SUPABASE_DOWNLOADS_BUCKET no ambiente do Render.
+# Arquivos que foram salvos localmente antes dessa configuração devem ser reenviados pelo painel.
