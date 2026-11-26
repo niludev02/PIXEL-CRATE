@@ -535,6 +535,7 @@ def categoria_api(request, id):
 @administrator_required
 def relatorios(request):
     servicos = Asset.objects.all()
+    total_servicos = servicos.count()
     servicos_ativos = servicos.filter(ativo=True).count()
     servicos_inativos = servicos.filter(ativo=False).count()
 
@@ -556,6 +557,7 @@ def relatorios(request):
     )
 
     return render(request, 'relatorios.html', {
+        'total_servicos': total_servicos,
         'servicos_ativos': servicos_ativos,
         'servicos_inativos': servicos_inativos,
         'status_valores': [servicos_ativos, servicos_inativos],

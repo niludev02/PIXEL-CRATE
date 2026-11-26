@@ -2,27 +2,83 @@
 
 {% load static %}
 
-{% block titulo %} Graficos {% endblock %}
+{% block titulo %}Relatórios | Pixel Crate{% endblock %}
 
 {% block estilos %}
 <link rel="stylesheet" href="{% static 'css/relatorios.css' %}">
 {% endblock %}
 
 {% block conteudo %}
-<h2 class="relatorios-titulo">Relatórios</h2>
-<div class="relatorios-graficos">
-    <div class="grafico-categorias">
-        <canvas id="graficoCategorias"></canvas>
-    </div>
-    <div class="grafico-status">
-        <canvas id="graficoStatus"></canvas>
-    </div>
-    <div class="grafico-vendas">
-        <canvas id="graficoVendas"></canvas>
-    </div>
-    <div class="grafico-meses">
-        <canvas id="graficoMeses"></canvas>
-    </div>
+<div class="relatorios-pagina">
+    <header class="relatorios-cabecalho">
+        <p class="relatorios-etiqueta">Análise de dados</p>
+        <h2 class="relatorios-titulo">Relatórios da loja</h2>
+        <p class="relatorios-descricao">Acompanhe os assets cadastrados, sua disponibilidade e o desempenho das vendas.</p>
+    </header>
+
+    <section class="relatorios-resumo" aria-label="Resumo dos assets">
+        <article class="relatorio-indicador">
+            <p class="indicador-etiqueta">Cadastrados</p>
+            <p class="indicador-valor">{{ total_servicos }}</p>
+            <p class="indicador-descricao">Total de assets na loja</p>
+        </article>
+        <article class="relatorio-indicador indicador-ativo">
+            <p class="indicador-etiqueta">Disponíveis</p>
+            <p class="indicador-valor">{{ servicos_ativos }}</p>
+            <p class="indicador-descricao">Assets ativos na vitrine</p>
+        </article>
+        <article class="relatorio-indicador indicador-inativo">
+            <p class="indicador-etiqueta">Indisponíveis</p>
+            <p class="indicador-valor">{{ servicos_inativos }}</p>
+            <p class="indicador-descricao">Assets ocultos da vitrine</p>
+        </article>
+    </section>
+
+    <section class="relatorios-secao" aria-labelledby="visao-geral-titulo">
+        <div class="relatorios-secao-cabecalho">
+            <h3 id="visao-geral-titulo">Visão geral</h3>
+            <p>Distribuição e situação dos assets cadastrados.</p>
+        </div>
+        <div class="relatorios-graficos">
+            <article class="relatorio-grafico">
+                <h4>Assets por categoria</h4>
+                <p>Quantidade cadastrada em cada categoria.</p>
+                <div class="grafico-area">
+                    <canvas id="graficoCategorias" role="img" aria-label="Gráfico de assets por categoria"></canvas>
+                </div>
+            </article>
+            <article class="relatorio-grafico">
+                <h4>Situação dos assets</h4>
+                <p>Comparação entre assets disponíveis e indisponíveis.</p>
+                <div class="grafico-area grafico-area-donut">
+                    <canvas id="graficoStatus" role="img" aria-label="Gráfico da situação dos assets"></canvas>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="relatorios-secao" aria-labelledby="vendas-titulo">
+        <div class="relatorios-secao-cabecalho">
+            <h3 id="vendas-titulo">Desempenho das vendas</h3>
+            <p>Resumo de pedidos pagos por categoria e ao longo do tempo.</p>
+        </div>
+        <div class="relatorios-graficos">
+            <article class="relatorio-grafico">
+                <h4>Vendas por categoria</h4>
+                <p>Valor total dos assets vendidos em cada categoria.</p>
+                <div class="grafico-area">
+                    <canvas id="graficoVendas" role="img" aria-label="Gráfico de vendas por categoria"></canvas>
+                </div>
+            </article>
+            <article class="relatorio-grafico">
+                <h4>Pedidos pagos por mês</h4>
+                <p>Quantidade de pedidos concluídos em cada mês.</p>
+                <div class="grafico-area">
+                    <canvas id="graficoMeses" role="img" aria-label="Gráfico de pedidos pagos por mês"></canvas>
+                </div>
+            </article>
+        </div>
+    </section>
 </div>
 {{categorias_labels|json_script:"categorias"}}
 {{categorias_valores|json_script:"quantidades"}}

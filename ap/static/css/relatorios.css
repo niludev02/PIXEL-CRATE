@@ -1,48 +1,179 @@
-.relatorios-titulo {
-    font-family: "Press Start 2P", monospace;
-    text-align: center;
-    font-size: clamp(.85rem, 1.5vw, 1.05rem);
+.relatorios-pagina {
+    width: min(100%, 1040px);
+    margin: 0 auto;
+    padding: 12px 0 48px;
+}
+
+.relatorios-cabecalho {
+    margin-bottom: 26px;
+}
+
+.relatorios-etiqueta,
+.indicador-etiqueta {
+    margin: 0;
+    color: var(--acao);
+    font-size: .7rem;
     font-weight: 700;
-    line-height: 1.8;
-    margin: 20px 0 30px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.relatorios-titulo {
+    margin: 7px 0 5px;
     color: var(--texto);
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    line-height: 1.25;
+}
+
+.relatorios-descricao,
+.relatorios-secao-cabecalho p,
+.relatorio-grafico > p {
+    margin: 0;
+    color: var(--texto-suave);
+    font-size: .9rem;
+    line-height: 1.55;
+}
+
+.relatorios-resumo {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.relatorio-indicador,
+.relatorio-grafico {
+    min-width: 0;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: var(--card);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+}
+
+.relatorio-indicador {
+    padding: 18px 20px;
+}
+
+.indicador-etiqueta {
+    color: var(--texto-suave);
+    font-size: .66rem;
+}
+
+.indicador-valor {
+    margin: 8px 0 2px;
+    color: var(--texto);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.indicador-ativo .indicador-valor {
+    color: var(--acao);
+}
+
+.indicador-inativo .indicador-valor {
+    color: var(--preco);
+}
+
+.indicador-descricao {
+    margin: 0;
+    color: var(--texto-suave);
+    font-size: .78rem;
+}
+
+.relatorios-secao + .relatorios-secao {
+    margin-top: 32px;
+}
+
+.relatorios-secao-cabecalho {
+    margin-bottom: 12px;
+}
+
+.relatorios-secao-cabecalho h3 {
+    margin: 0 0 3px;
+    color: var(--texto);
+    font-size: 1.08rem;
+}
+
+.relatorios-secao-cabecalho p {
+    font-size: .82rem;
 }
 
 .relatorios-graficos {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-    width: 100%;
-    padding-bottom: 30px;
+    gap: 16px;
 }
 
-.grafico-categorias,
-.grafico-status,
-.grafico-vendas,
-.grafico-meses {
+.relatorio-grafico {
+    padding: 18px;
+}
+
+.relatorio-grafico h4 {
+    margin: 0 0 4px;
+    color: var(--texto);
+    font-size: .9rem;
+}
+
+.relatorio-grafico > p {
+    font-size: .75rem;
+}
+
+.grafico-area {
     position: relative;
     width: 100%;
-    min-width: 0;
-    height: 350px;
-    padding: 1rem;
-    border: 1px solid var(--borda);
-    border-radius: 14px;
-    background: var(--card);
+    height: 270px;
+    margin-top: 12px;
+}
+
+.grafico-area-donut {
+    max-width: 380px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (max-width: 720px) {
+    .relatorios-pagina {
+        padding-top: 4px;
+    }
+
+    .relatorios-resumo {
+        gap: 10px;
+    }
+
+    .relatorio-indicador {
+        padding: 15px;
+    }
 }
 
 @media (max-width: 560px) {
-    .relatorios-titulo {
-        font-size: .8rem;
-    }
-
+    .relatorios-resumo,
     .relatorios-graficos {
         grid-template-columns: 1fr;
     }
 
-    .grafico-categorias,
-    .grafico-status,
-    .grafico-vendas,
-    .grafico-meses {
-        height: 280px;
+    .relatorios-resumo {
+        gap: 10px;
+        margin-bottom: 28px;
+    }
+
+    .relatorio-indicador {
+        padding: 15px 17px;
+    }
+
+    .indicador-valor {
+        font-size: 1.7rem;
+    }
+
+    .relatorios-graficos {
+        gap: 12px;
+    }
+
+    .relatorio-grafico {
+        padding: 16px;
+    }
+
+    .grafico-area {
+        height: 240px;
     }
 }

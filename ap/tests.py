@@ -292,6 +292,24 @@ class IntegrantesAccessTests(TestCase):
 
 
 class AssetScreenTests(TestCase):
+    def test_reports_show_asset_totals_and_status_summary(self):
+        admin = create_admin_user("admin-relatorios-resumo")
+        Asset.objects.create(nome="Asset ativo", preco=0, ativo=True)
+        Asset.objects.create(nome="Asset oculto", preco=10, ativo=False)
+        self.client.force_login(admin)
+
+        response = self.client.get(reverse("relatorios"))
+
+        self.assertEqual(response.context["total_servicos"], 2)
+        self.assertEqual(response.context["servicos_ativos"], 1)
+        self.assertEqual(response.context["servicos_inativos"], 1)
+        self.assertContains(response, "Relatórios da loja")
+        self.assertContains(response, "Cadastrados")
+        self.assertContains(response, "Disponíveis")
+        self.assertContains(response, "Indisponíveis")
+        self.assertContains(response, "Assets por categoria")
+        self.assertContains(response, "Pedidos pagos por mês")
+
     def test_asset_management_shows_active_free_and_inactive_assets(self):
         admin = create_admin_user("admin-assets")
         self.client.force_login(admin)
